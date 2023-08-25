@@ -154,10 +154,20 @@
           programs.wezterm = {
             enable = true;
             enableZshIntegration = true;
+                          extraConfig = ''
+               local wezterm = require 'wezterm'      
+               return {
+                 font_size = 16,
+                 color_scheme = 'Everforest Dark (Gogh)',
+                 window_background_opacity = 1.0,
+                 hide_tab_bar_if_only_one_tab = true,
+               }
+              '';
+
           };
 
           programs.kitty.enable = true;
-          programs.kitty.package = nixGLWrap pkgs.kitty;
+          # programs.kitty.package = nixGLWrap pkgs.kitty;
 
 
           programs.bat.enable = true;
@@ -191,7 +201,7 @@
             };
             signing = {
               signByDefault = true;
-              key = "~/.ssh/id_${if pkgs.stdenv.isDarwin then "rsa" else "ed25519"}.pub";
+              key = "~/.ssh/id_${if pkgs.stdenv.isDarwin then "ed25519" else "rsa" }.pub";
             };
             extraConfig = {
               core.editor = "hx";
@@ -287,7 +297,6 @@
                 font.size = 16;
                 window.option_as_alt = "OnlyLeft";
               } else {
-                package = nixGLWrap pkgs.alacritty;
                 font.size = 13;
               };
             package =
