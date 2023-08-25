@@ -26,13 +26,9 @@
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
       nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" { } ''
-        echo My example command is running
-
         mkdir $out
         ln -s ${pkg}/* $out
-        echo "HOLAAAAAA"
         rm $out/bin
-        echo "$out"
         mkdir $out/bin
         for bin in ${pkg}/bin/*; do
          wrapped_bin=$out/bin/$(basename $bin)
@@ -168,75 +164,76 @@
           programs.helix = {
             enable = true;
             settings = {
-              
-              theme="everforest_dark";
+
+              theme = "everforest_dark";
 
               editor = {
-                 bufferline = "always";
-                 rulers=[80];
+                bufferline = "always";
+                rulers = [ 80 ];
               };
 
               keys.normal = {
-               space.e = ":sh zellij run --close-on-exit --name 'File Tree' --floating -- ~/.cargo/bin/sidetree";
-               space.h = ":toggle file-picker.hidden";
+                space.e = ":sh zellij run --close-on-exit --name 'File Tree' --floating -- ~/.cargo/bin/sidetree";
+                space.h = ":toggle file-picker.hidden";
               };
             };
 
             languages = {
 
               language = [
-                
-{
-name = "html";
-formatter = { command = "yarn"; args = ["--silent" "prettier" "--parser"  "html" ]; };
-} 
-{
-name = "json";
-formatter = { command = "yarn"; args = ["--silent"  "prettier" "--parser"  "json" ]; };
-} 
-{
-name = "css";
-formatter = { command = "yarn"; args = ["--silent"  "prettier" "--parser"  "css" ]; };
-} 
-{
-name = "javascript";
-formatter = { command = "yarn"; args = ["--silent"  "prettier" "--parser"  "typescript" ]; };
-auto-format = true;
-} 
-{
-name = "typescript";
-formatter = { command = "yarn"; args = ["--silent"  "prettier" "--parser"  "typescript" ]; };
-auto-format = true;
-} 
-{
-name = "tsx";
-formatter = { command = "yarn"; args = ["--silent"  "prettier" "--parser"  "typescript" ]; };
-auto-format = true;
-} 
-{
-name = "bash";
-indent = { tab-width = 4;  unit = "    "; };
-formatter = { command = "shfmt"; args = ["-i"  "4"]; };
-auto-format = true;
-} 
-{
-name = "python";
-formatter = { command = "black"; args = ["--quiet"  "-"]; };
-auto-format = true;
-} 
-{
-name = "ruby";
-formatter = { command = "bundle"; args = ["exec"  "standardrb"  "--fix"  "--stderr"]; };
-auto-format = true;
-# language-server = { command = "standardrb"  args = ["--lsp"] }
-} 
-{
-name = "nix";
-# formatter = { command = "bundle"  args = ["exec"  "standardrb"  "--fix"  "--stderr"] }
-auto-format = true;
-# language-server = { command = "rnix-lsp" }
-}];
-              
+
+                {
+                  name = "html";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "html" ]; };
+                }
+                {
+                  name = "json";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "json" ]; };
+                }
+                {
+                  name = "css";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "css" ]; };
+                }
+                {
+                  name = "javascript";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "typescript" ]; };
+                  auto-format = true;
+                }
+                {
+                  name = "typescript";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "typescript" ]; };
+                  auto-format = true;
+                }
+                {
+                  name = "tsx";
+                  formatter = { command = "yarn"; args = [ "--silent" "prettier" "--parser" "typescript" ]; };
+                  auto-format = true;
+                }
+                {
+                  name = "bash";
+                  indent = { tab-width = 4; unit = "    "; };
+                  formatter = { command = "shfmt"; args = [ "-i" "4" ]; };
+                  auto-format = true;
+                }
+                {
+                  name = "python";
+                  formatter = { command = "black"; args = [ "--quiet" "-" ]; };
+                  auto-format = true;
+                }
+                {
+                  name = "ruby";
+                  formatter = { command = "bundle"; args = [ "exec" "standardrb" "--fix" "--stderr" ]; };
+                  auto-format = true;
+                  # language-server = { command = "standardrb"  args = ["--lsp"] }
+                }
+                {
+                  name = "nix";
+                  # formatter = { command = "bundle"  args = ["exec"  "standardrb"  "--fix"  "--stderr"] }
+                  auto-format = true;
+                  # language-server = { command = "rnix-lsp" }
+                }
+              ];
+
             };
           };
 
@@ -381,7 +378,7 @@ auto-format = true;
           home.file.".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
           # Let Home Manager install and manage itself.
-          programs.home-manager.enable = true;
+          # programs.home-manager.enable = true;
 
         };
       };
