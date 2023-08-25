@@ -226,9 +226,7 @@
             syntaxHighlighting.enable = true;
             shellAliases = {
               ls = "ls --color=auto -F";
-              hm = "home-manager --flake ~/Code/nix-config/.";
-              hmb = "home-manager build --flake ~/Code/nix-config/.#diegodorado";
-              hms = "home-manager switch --flake ~/Code/nix-config/.#diegodorado && exec zsh";
+              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; zsh";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
               nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
               rm = "echo -e \"\\e[01;31m Don't use rm. Use 'trash' instead. Or use full path '/bin/rm' \\e[0m\" 2&>"; # Correcting bad habits
