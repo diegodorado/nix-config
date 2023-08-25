@@ -22,7 +22,7 @@
 
   outputs = inputs@{ self, ... }:
     let
-      myUserName = "diegodorado";
+      username = "diegodorado";
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
       nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" { } ''
@@ -47,13 +47,13 @@
       imports = [ inputs.nixos-flake.flakeModule ];
 
       perSystem = { pkgs, ... }: {
-        legacyPackages.homeConfigurations.${myUserName} =
+        legacyPackages.homeConfigurations.${username} =
           self.nixos-flake.lib.mkHomeConfiguration
             pkgs
             ({ pkgs, ... }: {
               imports = [ self.homeModules.default ];
-              home.username = myUserName;
-              home.homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${myUserName}";
+              home.username = username;
+              home.homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${username}";
               home.stateVersion = "22.11";
             });
       };
@@ -77,7 +77,7 @@
             # Setup home-manager in nix-darwin config
             self.darwinModules.home-manager
             {
-              home-manager.users.${myUserName} = {
+              home-manager.users.${username} = {
                 imports = [ self.homeModules.default ];
                 home.stateVersion = "22.11";
               };
