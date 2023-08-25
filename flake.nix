@@ -154,15 +154,15 @@
           programs.wezterm = {
             enable = true;
             enableZshIntegration = true;
-                          extraConfig = ''
-               local wezterm = require 'wezterm'      
-               return {
-                 font_size = 16,
-                 color_scheme = 'Everforest Dark (Gogh)',
-                 window_background_opacity = 1.0,
-                 hide_tab_bar_if_only_one_tab = true,
-               }
-              '';
+            extraConfig = ''
+              local wezterm = require 'wezterm'      
+              return {
+                font_size = 16,
+                color_scheme = 'Everforest Dark (Gogh)',
+                window_background_opacity = 1.0,
+                hide_tab_bar_if_only_one_tab = true,
+              }
+            '';
 
           };
 
