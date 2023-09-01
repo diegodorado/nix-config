@@ -110,6 +110,7 @@
             nushell
             lazygit
             htop
+            heroku
 
             # # It is sometimes useful to fine-tune packages, for example, by applying
             # # overrides. You can do that directly here, just don't forget the
@@ -231,6 +232,10 @@
                   # formatter = { command = "bundle"  args = ["exec"  "standardrb"  "--fix"  "--stderr"] }
                   auto-format = true;
                   # language-server = { command = "rnix-lsp" }
+                }
+                {
+                  name = "cpp";
+                  auto-format = true;
                 }
               ];
 
