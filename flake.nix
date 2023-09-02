@@ -237,6 +237,11 @@
                   name = "cpp";
                   auto-format = true;
                 }
+                {
+                  name = "scss";
+                  auto-format = true;
+                  file-types = ["scss" "sass"];
+                }
               ];
 
             };
