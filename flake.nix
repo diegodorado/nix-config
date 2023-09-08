@@ -266,6 +266,7 @@
               cp = "cherry-pick";
               fix = "hx $(git diff --name-only --relative --diff-filter=U | uniq)";
               cm = "commit";
+              rb= "rebase";
               cma = "commit --amend";
               pf = "push --force-with-lease";
               ll = "log --oneline";
