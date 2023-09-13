@@ -111,6 +111,12 @@
             lazygit
             htop
             heroku
+            gh
+
+            trash-cli
+            magic-wormhole
+            moc
+            slides
 
             # # It is sometimes useful to fine-tune packages, for example, by applying
             # # overrides. You can do that directly here, just don't forget the
@@ -223,9 +229,9 @@
                 }
                 {
                   name = "ruby";
-                  formatter = { command = "bundle"; args = [ "exec" "standardrb" "--fix" "--stderr" ]; };
+                  # formatter = { command = "bundle"; args = [ "exec" "standardrb" "--fix" "--stderr" ]; };
                   auto-format = true;
-                  # language-server = { command = "standardrb"  args = ["--lsp"] }
+                  language-server = { command = "standardrb"; args = ["--lsp"]; };
                 }
                 {
                   name = "nix";
