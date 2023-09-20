@@ -297,6 +297,7 @@
               push.autoSetupRemote = true;
               gui.spellingdictionary = "none";
               gpg.format = "ssh";
+              url."ssh://git@github.com/".insteadOf = "https://github.com/";
             };
           };
 
