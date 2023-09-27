@@ -150,7 +150,7 @@
           home.sessionVariables = {
             PAGER = "less";
             CLICOLOR = 1;
-            EDITOR = "hx";
+            EDITOR = "vim";
           };
 
           programs.wezterm = {
@@ -168,6 +168,13 @@
 
           };
 
+          programs.neovim= {
+            enable = true;
+            viAlias = true;
+            vimAlias = true;
+            vimdiffAlias = true;
+          };
+            
           programs.helix = {
             enable = true;
             settings = {
@@ -328,6 +335,7 @@
               cat = "bat";
               g = "git";
               z = "zellij";
+              v = "vim";
               gcob = "git branch | fzf | xargs git checkout";
             };
             plugins = [ ];
@@ -379,12 +387,18 @@
           programs.alacritty = {
             enable = true;
             settings =
-              if pkgs.stdenv.isDarwin then {
+              (if pkgs.stdenv.isDarwin then {
                 font.normal.family = "MesloLGS Nerd Font Mono";
                 font.size = 16;
-                window.option_as_alt = "OnlyLeft";
               } else {
                 font.size = 13;
+              }) // {
+                window = {
+                  option_as_alt = "OnlyLeft";
+                  opacity = 0.5;
+                  decorations = "none";
+                  startup_mode = "Maximized";
+                };
               };
             package =
               if pkgs.stdenv.isDarwin then
