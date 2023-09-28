@@ -82,7 +82,7 @@
         };
 
         # home-manager configuration goes here.
-        homeModules.default = { pkgs, ... }: {
+        homeModules.default = { config, pkgs, ... }: {
           imports = [ ];
 
           # This value determines the Home Manager release that your configuration is
@@ -406,8 +406,12 @@
               else (nixGLWrap pkgs.alacritty);
           };
 
-
           home.file.".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
+
+          # simple approach: symlink nvim to this repository
+          home.file."./.config/nvim/" = {
+            source = config.lib.file.mkOutOfStoreSymlink  "${config.home.homeDirectory}/Code/nix-config/nvim";
+          };
 
           # Let Home Manager install and manage itself.
           # programs.home-manager.enable = true;
