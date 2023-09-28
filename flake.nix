@@ -150,7 +150,6 @@
           home.sessionVariables = {
             PAGER = "less";
             CLICOLOR = 1;
-            EDITOR = "vim";
           };
 
           programs.wezterm = {
@@ -173,6 +172,7 @@
             viAlias = true;
             vimAlias = true;
             vimdiffAlias = true;
+            defaultEditor = true;
           };
 
           # simple approach: symlink nvim to this repository
@@ -194,7 +194,7 @@
             aliases = {
               co = "checkout";
               cp = "cherry-pick";
-              fix = "hx $(git diff --name-only --relative --diff-filter=U | uniq)";
+              fix = "vim $(git diff --name-only --relative --diff-filter=U | uniq)";
               cm = "commit";
               rb= "rebase";
               cma = "commit --amend";
@@ -216,7 +216,7 @@
               key = "~/.ssh/id_${if pkgs.stdenv.isDarwin then "ed25519" else "rsa" }.pub";
             };
             extraConfig = {
-              core.editor = "hx";
+              core.editor = "vim";
               push.default = "simple";
               push.autoSetupRemote = true;
               gui.spellingdictionary = "none";
