@@ -39,9 +39,6 @@ export PATH=~/bin:~/.local/bin/:~/.yarn/bin:~/.ghcup/bin:$PATH
 # add platformio path
 export PATH=$PATH:~/.platformio/penv/bin
 
-export EDITOR=hx
-export VISUAL=hx
-export BROWSER=/usr/bin/brave
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export PATH=$PATH:$ANDROID_HOME/emulator

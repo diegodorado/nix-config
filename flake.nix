@@ -312,7 +312,7 @@
               }) // {
                 window = {
                   option_as_alt = "OnlyLeft";
-                  opacity = 0.5;
+                  opacity = 0.9;
                   decorations = "none";
                   startup_mode = "Maximized";
                 };
