@@ -251,7 +251,6 @@
               hist = "cat ~/.zsh_history | grep";
               cat = "bat";
               g = "git";
-              z = "zellij";
               v = "vim";
               gcob = "git branch | fzf | xargs git checkout";
             };
@@ -275,30 +274,6 @@
 
           programs.lazygit = {
             enable = true;
-          };
-
-          programs.zellij = {
-            enable = true;
-            enableZshIntegration = true;
-            settings = {
-              themes = {
-                "everforest-dark" = {
-                  bg = "#2b3339";
-                  fg = "#d3c6aa";
-                  black = "#4b565c";
-                  red = "#e67e80";
-                  green = "#a7c080";
-                  yellow = "#dbbc7f";
-                  blue = "#7fbbb3";
-                  magenta = "#d699b6";
-                  cyan = "#83c092";
-                  white = "#d3c6aa";
-                  orange = "#FF9E64";
-                };
-              };
-              theme = "everforest-dark";
-              pane_frames = false;
-            };
           };
 
           programs.alacritty = {
