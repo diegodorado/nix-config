@@ -261,6 +261,17 @@
               '';
           };
 
+          programs.tmux = {
+            enable = true;
+            shortcut = "s";
+            baseIndex = 1;
+            escapeTime = 10;
+            plugins = with pkgs.tmuxPlugins; [
+              nord
+              vim-tmux-navigator
+            ];
+          };
+
           programs.zoxide = {
             enable = true;
             enableZshIntegration = true;
