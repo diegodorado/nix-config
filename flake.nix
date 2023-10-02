@@ -263,13 +263,42 @@
 
           programs.tmux = {
             enable = true;
+            sensibleOnTop = true;
+            terminal = "screen-256color";
+            historyLimit = 99999;
+            keyMode = "vi";
+            mouse = true;
             shortcut = "s";
             baseIndex = 1;
-            escapeTime = 10;
+            escapeTime = 0;
+            disableConfirmationPrompt = true;
+            clock24 = true;
             plugins = with pkgs.tmuxPlugins; [
               nord
+              # fingers
+              # online-status
+              net-speed
               vim-tmux-navigator
             ];
+            extraConfig = ''
+            # reload config
+            bind r source-file ~/.config/tmux/tmux.conf \; display-message "config reloaded"
+
+            # split windows
+            bind '-' "split-window -v -c '#{pane_current_path}'"
+            bind '\' "split-window -h -c '#{pane_current_path}'"
+
+            # resize panes
+            bind -r h resize-pane -L 2
+            bind -r j resize-pane -D 1
+            bind -r k resize-pane -U 1
+            bind -r l resize-pane -R 2
+            # resize panes faster
+            bind -r H resize-pane -L 10
+            bind -r J resize-pane -D 5
+            bind -r K resize-pane -U 5
+            bind -r L resize-pane -R 10
+            '';
           };
 
           programs.zoxide = {
