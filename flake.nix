@@ -251,7 +251,8 @@
               hist = "cat ~/.zsh_history | grep";
               cat = "bat";
               g = "git";
-              v = "vim";
+              v = "nvim";
+              t = "TERM=tmux-256color tmux";
               gcob = "git branch | fzf | xargs git checkout";
             };
             plugins = [ ];
@@ -264,7 +265,7 @@
           programs.tmux = {
             enable = true;
             sensibleOnTop = true;
-            terminal = "screen-256color";
+            terminal = "tmux-256color";
             historyLimit = 99999;
             keyMode = "vi";
             mouse = true;
@@ -279,6 +280,7 @@
               # online-status
               net-speed
               vim-tmux-navigator
+              tmux-thumbs
             ];
             extraConfig = ''
             # reload config
@@ -335,6 +337,9 @@
                   opacity = 0.9;
                   decorations = "none";
                   startup_mode = "Maximized";
+                };
+                env = {
+                  TERM = "xterm-256color";
                 };
               };
             package =

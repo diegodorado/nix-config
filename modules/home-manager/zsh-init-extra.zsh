@@ -30,9 +30,6 @@ ghpr() { GH_FORCE_TTY=100% gh pr list --limit 300 |
     awk '{print $1}' |
     xargs gh pr checkout; }
 
-# some ssh have troubles with backspace and other stuff if this is not set
-export TERM="xterm-256color"
-
 export KEYTIMEOUT=1
 export PATH=~/bin:~/.local/bin/:~/.yarn/bin:~/.ghcup/bin:$PATH
 [ -f "~/ghcup/env" ] && source "~/ghcup/env"
@@ -48,3 +45,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # cargo
 export PATH=$PATH:~/.cargo/bin
+
+# silent direnv
+export DIRENV_LOG_FORMAT=
