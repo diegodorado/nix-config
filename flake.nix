@@ -216,6 +216,7 @@
               key = "~/.ssh/id_${if pkgs.stdenv.isDarwin then "ed25519" else "rsa" }.pub";
             };
             extraConfig = {
+              tag.gpgSign = false;
               core.editor = "vim";
               push.default = "simple";
               push.autoSetupRemote = true;
@@ -281,6 +282,8 @@
               net-speed
               vim-tmux-navigator
               tmux-thumbs
+              fuzzback
+              tmux-fzf
             ];
             extraConfig = ''
             # reload config
@@ -300,6 +303,9 @@
             bind -r J resize-pane -D 5
             bind -r K resize-pane -U 5
             bind -r L resize-pane -R 10
+
+            # thumbs copy to clipboard, not to buffer
+            set -g @thumbs-command 'echo -n {} | pbcopy'
             '';
           };
 
