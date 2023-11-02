@@ -31,8 +31,8 @@ ghpr() { GH_FORCE_TTY=100% gh pr list --limit 300 |
     xargs gh pr checkout; }
 
 export KEYTIMEOUT=1
-export PATH=~/bin:~/.local/bin/:~/.yarn/bin:~/.ghcup/bin:$PATH
-[ -f "~/ghcup/env" ] && source "~/ghcup/env"
+export PATH=~/bin:~/.local/bin/:~/.ghcup/bin:$PATH
+
 # add platformio path
 export PATH=$PATH:~/.platformio/penv/bin
 
