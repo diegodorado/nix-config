@@ -174,6 +174,9 @@
           };
 
           # simple approach: symlink nvim to this repository
+          home.file."./.config/lnvim/" = {
+            source = config.lib.file.mkOutOfStoreSymlink  "${config.home.homeDirectory}/Code/nix-config/lnvim";
+          };
           home.file."./.config/nvim/" = {
             source = config.lib.file.mkOutOfStoreSymlink  "${config.home.homeDirectory}/Code/nix-config/nvim";
           };
@@ -257,6 +260,7 @@
               hist = "cat ~/.zsh_history | grep";
               cat = "bat";
               g = "git";
+              lv = "NVIM_APPNAME=lnvim nvim"; # legacy lazyvim
               v = "nvim";
               t = "TERM=tmux-256color tmux";
               gcob = "git branch | fzf | xargs git checkout";
