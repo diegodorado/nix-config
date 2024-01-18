@@ -1,25 +1,22 @@
 #!/usr/bin/env bash
 
-if [[ $# -eq 1 ]]; then
-    selected=$1
-else
-    selected="~/Code/$(find ~/Code -type d -name ".git" -maxdepth 4 | xargs dirname | xargs realpath --relative-to=$(eval echo "~/Code") | sort -r | fzf)"
-fi
-
+selected=$(find ~/Code -maxdepth 4 -type d -name ".git" | xargs dirname | xargs realpath --relative-to="$HOME/Code" | sort -r | fzf)
 if [[ -z $selected ]]; then
     exit 0
 fi
 
+selected="$HOME/Code/$selected"
 selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    exit 0
-fi
-
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
+# create the session if needed
+if ! t has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
 
-tmux switch-client -t $selected_name
+if [[ $TMUX ]]; then
+  TERM=tmux-256color tmux switch-client -t $selected_name
+else
+  #outside tmux
+  TERM=tmux-256color tmux attach -t $selected_name
+fi
+

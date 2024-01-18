@@ -125,9 +125,10 @@
             # # You can also create simple shell scripts directly inside your
             # # configuration. For example, this adds a command 'my-hello' to your
             # # environment:
-            # (pkgs.writeShellScriptBin "my-hello" ''
-            #   echo "Hello, ${config.home.username}!"
-            # '')
+            #(pkgs.writeShellScriptBin "my-hello" ''
+              #echo "Hello, ${config.home.username}!"
+            #'')
+            (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
           ];
 
           # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -148,21 +149,6 @@
           home.sessionVariables = {
             PAGER = "less";
             CLICOLOR = 1;
-          };
-
-          programs.wezterm = {
-            enable = true;
-            enableZshIntegration = true;
-            extraConfig = ''
-              local wezterm = require 'wezterm'      
-              return {
-                font_size = 16,
-                color_scheme = 'Everforest Dark (Gogh)',
-                window_background_opacity = 1.0,
-                hide_tab_bar_if_only_one_tab = true,
-              }
-            '';
-
           };
 
           programs.neovim= {
@@ -201,9 +187,10 @@
               s = "status";
               co = "checkout";
               cp = "cherry-pick";
-              fix = "vim $(git diff --name-only --relative --diff-filter=U | uniq)";
+              fix = "v $(git diff --name-only --relative --diff-filter=U | uniq)";
               cm = "commit";
               rb= "rebase";
+              rs= "restore";
               cma = "commit --amend";
               pf = "push --force-with-lease";
               ll = "log --oneline";
@@ -257,12 +244,13 @@
               free = "free -m"; # Show sizes in MB
               open = "xdg-open";
               grepjs = "grep --include=\\*.{js,ts,tsx} --exclude-dir=node_modules -rEn";
-              hist = "cat ~/.zsh_history | grep";
               cat = "bat";
               g = "git";
               lv = "NVIM_APPNAME=lnvim nvim"; # legacy lazyvim
               v = "nvim";
+              # `t` to open tmux, `tt` to open a certain tmux session
               t = "TERM=tmux-256color tmux";
+              tt = "tmux-sessionizer";
               gcob = "git branch | fzf | xargs git checkout";
             };
             plugins = [ ];
@@ -291,8 +279,7 @@
               net-speed
               vim-tmux-navigator
               tmux-thumbs
-              fuzzback
-              tmux-fzf
+              open
             ];
             extraConfig = ''
             # reload config
@@ -313,8 +300,14 @@
             bind -r K resize-pane -U 5
             bind -r L resize-pane -R 10
 
+            # sessions
+            bind -r s display-popup -E 'tmux-sessionizer'
+            # switch back to previous session on detach
+            set-option -g detach-on-destroy off
+
             # thumbs copy to clipboard, not to buffer
-            set -g @thumbs-command 'echo -n {} | pbcopy'
+            # set -g @thumbs-command 'echo -n {} | pbcopy'
+
             '';
           };
 

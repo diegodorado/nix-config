@@ -30,6 +30,7 @@ require('lazy').setup({
   -- useless animations
   'eandrju/cellular-automaton.nvim',
 
+  'tpope/vim-obsession',
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
