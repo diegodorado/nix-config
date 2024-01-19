@@ -359,7 +359,7 @@
           home.file.".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
           # Let Home Manager install and manage itself.
-          # programs.home-manager.enable = true;
+          programs.home-manager.enable = true;
 
         };
       };
