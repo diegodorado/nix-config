@@ -350,6 +350,7 @@
                   TERM = "xterm-256color";
                 };
               };
+
             package =
               if pkgs.stdenv.isDarwin then
                 pkgs.alacritty
