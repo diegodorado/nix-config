@@ -25,17 +25,27 @@
       username = "diegodorado";
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
-      nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" { } ''
-        mkdir $out
-        ln -s ${pkg}/* $out
-        rm $out/bin
-        mkdir $out/bin
-        for bin in ${pkg}/bin/*; do
-         wrapped_bin=$out/bin/$(basename $bin)
-         echo "exec ${pkgs.lib.getExe (nixgl.nixGLCommon nixgl.nixGLIntel)} $bin \$@" > $wrapped_bin
-         chmod +x $wrapped_bin
-        done
-      '';
+      nixGLWrap = pkg: pkgs.stdenv.mkDerivation {
+
+        name = "${pkg.name}-nixgl-wrapper";
+        version = pkg.version;
+        src = pkgs.lib.cleanSource pkg;
+        buildInputs = [ pkg ];
+
+        installPhase = ''
+          mkdir $out
+          ln -s ${pkg}/* $out
+          rm $out/bin
+          mkdir $out/bin
+          for bin in ${pkg}/bin/*; do
+            wrapped_bin=$out/bin/$(basename $bin)
+            echo "exec ${pkgs.lib.getExe nixgl.nixGLIntel} $bin \$@" >> $wrapped_bin
+            chmod +x $wrapped_bin
+          done
+        '';
+
+      };
+
     in
 
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -126,7 +136,7 @@
             # # configuration. For example, this adds a command 'my-hello' to your
             # # environment:
             #(pkgs.writeShellScriptBin "my-hello" ''
-              #echo "Hello, ${config.home.username}!"
+            #echo "Hello, ${config.home.username}!"
             #'')
             (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
           ];
@@ -151,7 +161,7 @@
             CLICOLOR = 1;
           };
 
-          programs.neovim= {
+          programs.neovim = {
             enable = true;
             viAlias = true;
             vimAlias = true;
@@ -161,13 +171,13 @@
 
           # simple approach: symlink nvim to this repository
           home.file."./.config/lnvim/" = {
-            source = config.lib.file.mkOutOfStoreSymlink  "${config.home.homeDirectory}/Code/nix-config/lnvim";
+            source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/lnvim";
           };
           home.file."./.config/nvim/" = {
-            source = config.lib.file.mkOutOfStoreSymlink  "${config.home.homeDirectory}/Code/nix-config/nvim";
+            source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/nvim";
           };
 
-            
+
           programs.bat.enable = true;
           programs.bat.config.theme = "TwoDark";
           programs.fzf.enable = true;
@@ -189,8 +199,8 @@
               cp = "cherry-pick";
               fix = "v $(git diff --name-only --relative --diff-filter=U | uniq)";
               cm = "commit";
-              rb= "rebase";
-              rs= "restore";
+              rb = "rebase";
+              rs = "restore";
               cma = "commit --amend";
               pf = "push --force-with-lease";
               ll = "log --oneline";
@@ -282,32 +292,32 @@
               open
             ];
             extraConfig = ''
-            # reload config
-            bind r source-file ~/.config/tmux/tmux.conf \; display-message "config reloaded"
+              # reload config
+              bind r source-file ~/.config/tmux/tmux.conf \; display-message "config reloaded"
 
-            # split windows
-            bind '-' "split-window -v -c '#{pane_current_path}'"
-            bind '\' "split-window -h -c '#{pane_current_path}'"
+              # split windows
+              bind '-' "split-window -v -c '#{pane_current_path}'"
+              bind '\' "split-window -h -c '#{pane_current_path}'"
 
-            # resize panes
-            bind -r h resize-pane -L 2
-            bind -r j resize-pane -D 1
-            bind -r k resize-pane -U 1
-            bind -r l resize-pane -R 2
-            # resize panes faster
-            bind -r H resize-pane -L 10
-            bind -r J resize-pane -D 5
-            bind -r K resize-pane -U 5
-            bind -r L resize-pane -R 10
+              # resize panes
+              bind -r h resize-pane -L 2
+              bind -r j resize-pane -D 1
+              bind -r k resize-pane -U 1
+              bind -r l resize-pane -R 2
+              # resize panes faster
+              bind -r H resize-pane -L 10
+              bind -r J resize-pane -D 5
+              bind -r K resize-pane -U 5
+              bind -r L resize-pane -R 10
 
-            # sessions
-            bind -r s display-popup -E 'tmux-sessionizer'
-            # switch back to previous session on detach
-            set-option -g detach-on-destroy off
+              # sessions
+              bind -r s display-popup -E 'tmux-sessionizer'
+              # switch back to previous session on detach
+              set-option -g detach-on-destroy off
 
-            # thumbs copy to clipboard, not to buffer
-            # set -g @thumbs-command 'echo -n {} | pbcopy'
-            set-option -sa terminal-features ',tmux-256color:RGB'
+              # thumbs copy to clipboard, not to buffer
+              # set -g @thumbs-command 'echo -n {} | pbcopy'
+              set-option -sa terminal-features ',tmux-256color:RGB'
 
             '';
           };
@@ -338,11 +348,13 @@
               (if pkgs.stdenv.isDarwin then {
                 font.normal.family = "MesloLGS Nerd Font Mono";
                 font.size = 16;
+                window = {
+                  option_as_alt = "OnlyLeft";
+                };
               } else {
                 font.size = 13;
               }) // {
                 window = {
-                  option_as_alt = "OnlyLeft";
                   opacity = 0.9;
                   decorations = "none";
                   startup_mode = "Maximized";
