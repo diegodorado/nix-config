@@ -245,11 +245,11 @@
             syntaxHighlighting.enable = true;
             shellAliases = {
               ls = "ls --color=auto -F";
-              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; zsh";
+              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
               nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
               rm = "echo -e \"\\e[01;31m Don't use rm. Use 'trash' instead. Or use full path '/bin/rm' \\e[0m\" 2&>"; # Correcting bad habits
-              cp = "${if pkgs.stdenv.isDarwin then "/bin/cp" else "cp" } -i"; # Confirm before overwriting something
+              cp = "cp -i"; # Confirm before overwriting something
               df = "df -h"; # Human-readable sizes
               free = "free -m"; # Show sizes in MB
               open = "xdg-open";
