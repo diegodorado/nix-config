@@ -304,19 +304,20 @@
               bind -r j resize-pane -D 1
               bind -r k resize-pane -U 1
               bind -r l resize-pane -R 2
-              # resize panes faster
-              bind -r H resize-pane -L 10
-              bind -r J resize-pane -D 5
-              bind -r K resize-pane -U 5
-              bind -r L resize-pane -R 10
+
 
               # sessions
-              bind -r s display-popup -E 'tmux-sessionizer'
+              bind J display-popup -E 'tmux-sessionizer'
+              bind -r H switch-client -n -n
+              bind -r L switch-client -n 
+
               # switch back to previous session on detach
               set-option -g detach-on-destroy off
 
               # thumbs copy to clipboard, not to buffer
               # set -g @thumbs-command 'echo -n {} | pbcopy'
+
+              # suggested by vim :checkhealth
               set-option -sa terminal-features ',tmux-256color:RGB'
 
             '';
