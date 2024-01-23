@@ -307,6 +307,7 @@
 
             # thumbs copy to clipboard, not to buffer
             # set -g @thumbs-command 'echo -n {} | pbcopy'
+            set-option -sa terminal-features ',tmux-256color:RGB'
 
             '';
           };
@@ -342,7 +343,7 @@
               }) // {
                 window = {
                   option_as_alt = "OnlyLeft";
-                  opacity = 0.9;
+                  opacity = 0.0;
                   decorations = "none";
                   startup_mode = "Maximized";
                 };

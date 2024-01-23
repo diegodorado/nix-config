@@ -23,23 +23,36 @@ require('lazy').setup({
   'tpope/vim-fugitive',
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
+    "catppuccin/nvim",
+    name = "catppuccin",
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require('catppuccin').setup({
+        -- transparent_background = true, -- disables setting the background color.
+        integrations = {
+          harpoon = true,
+          fidget = true,
+          mason = true,
+          neotree = true,
+          lsp_trouble = true,
+          which_key = true,
+        }
+      })
+      vim.cmd.colorscheme 'catppuccin'
     end,
+    priority = 1000
   },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
-
   { import = 'plugins' },
-}, {})
+}, {
+  change_detection = {
+    enabled = false,
+  },
+})
 
 
--- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
