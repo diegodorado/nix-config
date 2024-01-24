@@ -397,35 +397,6 @@
               else (nixGLWrap pkgs.wezterm);
           };
 
-          programs.alacritty = {
-            enable = true;
-            settings =
-              (if pkgs.stdenv.isDarwin then {
-                font.normal.family = "MesloLGS Nerd Font Mono";
-                font.size = 16;
-                window = {
-                  option_as_alt = "OnlyLeft";
-                };
-              } else {
-                font.normal.family = "JetBrainsMono Nerd Font Mono";
-                font.size = 13;
-              }) // {
-                window = {
-                  opacity = 0.9;
-                  decorations = "none";
-                  startup_mode = "Maximized";
-                };
-                env = {
-                  TERM = "xterm-256color";
-                };
-              };
-
-            package =
-              if pkgs.stdenv.isDarwin then
-                pkgs.alacritty
-              else (nixGLWrap pkgs.alacritty);
-          };
-
           home.file.".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
           # Let Home Manager install and manage itself.
