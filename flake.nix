@@ -104,9 +104,12 @@
           # release notes.
           home.stateVersion = "22.11"; # Please read the comment before changing.
 
+          fonts.fontconfig.enable = true;
           # The home.packages option allows you to install Nix packages into your
           # environment.
           home.packages = with pkgs; [
+            (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+
             curl
             fd
             fzf
@@ -245,7 +248,7 @@
             syntaxHighlighting.enable = true;
             shellAliases = {
               ls = "ls --color=auto -F";
-              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc";
+              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;tmux source-file ~/.config/tmux/tmux.conf";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
               nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
               rm = "echo -e \"\\e[01;31m Don't use rm. Use 'trash' instead. Or use full path '/bin/rm' \\e[0m\" 2&>"; # Correcting bad habits
@@ -283,9 +286,7 @@
             disableConfirmationPrompt = true;
             clock24 = true;
             plugins = with pkgs.tmuxPlugins; [
-              nord
-              # fingers
-              # online-status
+              catppuccin
               net-speed
               vim-tmux-navigator
               tmux-thumbs
@@ -305,7 +306,6 @@
               bind -r k resize-pane -U 1
               bind -r l resize-pane -R 2
 
-
               # sessions
               bind J display-popup -E 'tmux-sessionizer'
               bind -r H switch-client -n -n
@@ -320,6 +320,26 @@
               # suggested by vim :checkhealth
               set-option -sa terminal-features ',tmux-256color:RGB'
 
+              # theme
+              set -g @catppuccin_window_left_separator "█"
+              set -g @catppuccin_window_right_separator "█ "
+              set -g @catppuccin_window_number_position "right"
+              set -g @catppuccin_window_middle_separator "  █"
+              set -g @catppuccin_window_default_fill "number"
+              set -g @catppuccin_window_current_fill "number"
+
+              set -g @catppuccin_date_time_text "%d/%m %H:%M"
+              set -g @catppuccin_date_time_icon "null"
+              set -g @catppuccin_status_modules "application session date_time"
+
+              set -g @catppuccin_window_current_format_directory_text "#{b:pane_current_path}"
+              set -g @catppuccin_window_format_directory_text "#{b:pane_current_path}"
+
+              # ============================================= #
+              # HACK - run catppuccin last
+              # --------------------------------------------- #
+              run-shell ${pkgs.tmuxPlugins.catppuccin.rtp}
+              # ============================================= #
             '';
           };
 
@@ -343,6 +363,40 @@
             enable = true;
           };
 
+          programs.wezterm = {
+            enable = true;
+            enableZshIntegration = true;
+            extraConfig = ''
+              return {
+                font = wezterm.font("JetBrains Mono"),
+                font_size = 16.0,
+                color_scheme = "Catppuccin Mocha",
+                -- hide_tab_bar_if_only_one_tab = true,
+
+                enable_scroll_bar = false,
+                enable_tab_bar = false,
+
+                window_padding = {
+                  left = 0,
+                  right = 0,
+                  top = 0,
+                  bottom = '0cell',
+                },
+                window_decorations = "NONE",
+                -- window_background_opacity = 0.5,
+
+                -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
+                -- keys = {
+                --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
+                -- }
+              }
+            '';
+            package =
+              if pkgs.stdenv.isDarwin then
+                pkgs.wezterm
+              else (nixGLWrap pkgs.wezterm);
+          };
+
           programs.alacritty = {
             enable = true;
             settings =
@@ -353,6 +407,7 @@
                   option_as_alt = "OnlyLeft";
                 };
               } else {
+                font.normal.family = "JetBrainsMono Nerd Font Mono";
                 font.size = 13;
               }) // {
                 window = {
