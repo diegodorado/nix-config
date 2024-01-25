@@ -164,6 +164,22 @@
             CLICOLOR = 1;
           };
 
+          gtk = {
+            enable = true;
+            theme = {
+              name = "Catppuccin";
+              package = pkgs.catppuccin-gtk.override {
+                accents = [ "pink" ];
+                # size = "compact";
+                # tweaks = [ "rimless" "black" ];
+                # variant = "mocha";
+              };
+            };
+          };
+          home.sessionVariables.GTK_THEME = "Catppuccin";
+
+          # programs.dconf.enable = true;
+
           programs.neovim = {
             enable = true;
             viAlias = true;
@@ -367,12 +383,23 @@
             enable = true;
             enableZshIntegration = true;
             extraConfig = ''
+
+              wezterm.on('toggle-opacity', function(window, pane)
+                local overrides = window:get_config_overrides() or {}
+                if not overrides.window_background_opacity then
+                  overrides.window_background_opacity = 0
+                else
+                  overrides = {}
+                end
+                window:set_config_overrides(overrides)
+              end)
+
               return {
-                font = wezterm.font("JetBrains Mono"),
+                font = wezterm.font {
+                  family = "JetBrains Mono",
+                },
                 font_size = 16.0,
                 color_scheme = "Catppuccin Mocha",
-                -- hide_tab_bar_if_only_one_tab = true,
-
                 enable_scroll_bar = false,
                 enable_tab_bar = false,
 
@@ -380,15 +407,19 @@
                   left = 0,
                   right = 0,
                   top = 0,
-                  bottom = '0cell',
+                  bottom = 0,
                 },
-                window_decorations = "NONE",
-                -- window_background_opacity = 0.5,
 
-                -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
-                -- keys = {
-                --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
-                -- }
+                keys = {
+                  {key="l", mods="SHIFT|CTRL", action="ShowDebugOverlay"},
+                  {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
+                  {
+                    key = 'B',
+                    mods = 'SHIFT|CTRL',
+                    action = wezterm.action.EmitEvent 'toggle-opacity',
+                  },
+                },
+
               }
             '';
             package =
