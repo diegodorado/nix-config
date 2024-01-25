@@ -117,6 +117,21 @@
           home.packages = with pkgs; [
             (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
 
+
+            # FIXME: this tmux version is compiled with sixel support
+            # but wezterm does not manage to inform it does support sixel
+            # (tmux.overrideAttrs (x: {
+            #   configureFlags = (x.configureFlags or [ ]) ++
+            #     [ "--enable-sixel" ];
+            #   src = fetchFromGitHub {
+            #     owner = "tmux";
+            #     repo = "tmux";
+            #     rev = "ea7136fb838a2831d38e11ca94094cea61a01e3a";
+            #     hash = "sha256-toyK1X34IJ2E6tQd7sa/rEo7HcLppVHkwdttt4IWEnk=";
+            #   };
+            #   patches = [ ];
+            # }))
+
             curl
             fd
             fzf
@@ -189,7 +204,7 @@
 
 
           programs.bat.enable = true;
-          programs.bat.config.theme = "TwoDark";
+          programs.bat.config.theme = "Catppuccin";
           programs.fzf.enable = true;
           programs.fzf.enableZshIntegration = true;
 
@@ -254,6 +269,7 @@
             enableAutosuggestions = true;
             syntaxHighlighting.enable = true;
             shellAliases = {
+              mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
               ls = "ls --color=auto -F";
               hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;tmux source-file ~/.config/tmux/tmux.conf";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
