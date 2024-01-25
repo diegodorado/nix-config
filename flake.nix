@@ -164,22 +164,6 @@
             CLICOLOR = 1;
           };
 
-          gtk = {
-            enable = true;
-            theme = {
-              name = "Catppuccin";
-              package = pkgs.catppuccin-gtk.override {
-                accents = [ "pink" ];
-                # size = "compact";
-                # tweaks = [ "rimless" "black" ];
-                # variant = "mocha";
-              };
-            };
-          };
-          home.sessionVariables.GTK_THEME = "Catppuccin";
-
-          # programs.dconf.enable = true;
-
           programs.neovim = {
             enable = true;
             viAlias = true;
