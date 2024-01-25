@@ -95,6 +95,13 @@
         homeModules.default = { config, pkgs, ... }: {
           imports = [ ];
 
+          # HACK: if binary is missing under tofi, delete .cache/tofi*
+          # xdg.enable = true;
+          # xdg.mime.enable = true;
+          # xdg.systemDirs.data = [ "${config.home.homeDirectory}/.nix-profile/share/applications" ];
+          # targets.genericLinux.enable = true;
+          # export XDG_DATA_DIRS="/home/your_user/.nix-profile/share:$XDG_DATA_DIRS"
+
           # This value determines the Home Manager release that your configuration is
           # compatible with. This helps avoid breakage when a new Home Manager release
           # introduces backwards incompatible changes.
