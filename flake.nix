@@ -378,6 +378,11 @@
                 window:set_config_overrides(overrides)
               end)
 
+              wezterm.on("gui-startup", function(cmd)
+                local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+                window:gui_window():maximize()
+              end)
+
               return {
                 font = wezterm.font {
                   family = "JetBrains Mono",
@@ -393,6 +398,9 @@
                   top = 0,
                   bottom = 0,
                 },
+                window_close_confirmation = 'NeverPrompt',
+                window_decorations = 'RESIZE',
+
 
                 keys = {
                   {key="l", mods="SHIFT|CTRL", action="ShowDebugOverlay"},
