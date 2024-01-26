@@ -48,6 +48,21 @@
 
     in
 
+    # TODO: add these files to home.file
+      # /usr/share/sway/scripts/waybar.sh
+      # /usr/share/sway/scripts/wob.sh 
+      # ~/.config/mako
+      # ~/.config/mako/config
+      # ~/.config/sway/config
+      # ~/.config/swaylock/config
+      # ~/.config/tofi/config
+      # ~/.config/waybar/
+      # ~/.config/waybar/config.jsonc
+      # ~/.config/waybar/style.css
+      # ~/.config/wob.ini
+      # ~/bin/otp
+
+
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
       imports = [ inputs.nixos-flake.flakeModule ];

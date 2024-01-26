@@ -1,5 +1,5 @@
-require('config.settings')
-require('config.mappings')
+require 'config.settings'
+require 'config.mappings'
 
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -19,14 +19,17 @@ require('lazy').setup({
   -- useless animations
   'eandrju/cellular-automaton.nvim',
 
+  -- Although I like it, I am not ready for this
+  -- 'vimpostor/vim-tpipeline',
+
   -- Git related plugins
   'tpope/vim-fugitive',
 
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    'catppuccin/nvim',
+    name = 'catppuccin',
     config = function()
-      require('catppuccin').setup({
+      require('catppuccin').setup {
         -- transparent_background = true, -- disables setting the background color.
         integrations = {
           harpoon = true,
@@ -35,11 +38,11 @@ require('lazy').setup({
           neotree = true,
           lsp_trouble = true,
           which_key = true,
-        }
-      })
+        },
+      }
       vim.cmd.colorscheme 'catppuccin'
     end,
-    priority = 1000
+    priority = 1000,
   },
 
   -- "gc" to comment visual regions/lines
@@ -51,7 +54,6 @@ require('lazy').setup({
     enabled = false,
   },
 })
-
 
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
