@@ -117,7 +117,6 @@
           home.packages = with pkgs; [
             (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
 
-
             # FIXME: this tmux version is compiled with sixel support
             # but wezterm does not manage to inform it does support sixel
             # (tmux.overrideAttrs (x: {
@@ -309,7 +308,7 @@
             disableConfirmationPrompt = true;
             clock24 = true;
             plugins = with pkgs.tmuxPlugins; [
-              catppuccin
+
               net-speed
               vim-tmux-navigator
               tmux-thumbs
@@ -351,6 +350,9 @@
               set -g @catppuccin_window_default_fill "number"
               set -g @catppuccin_window_current_fill "number"
 
+              set -g @catppuccin_window_default_background "#313244"
+              set -g @catppuccin_window_current_background "#313244"
+
               set -g @catppuccin_date_time_text "%d/%m %H:%M"
               set -g @catppuccin_date_time_icon "null"
               set -g @catppuccin_status_modules "application session date_time"
@@ -360,8 +362,22 @@
 
               # ============================================= #
               # HACK - run catppuccin last
+              # Also pick latest version
               # --------------------------------------------- #
-              run-shell ${pkgs.tmuxPlugins.catppuccin.rtp}
+              run-shell ${(pkgs.tmuxPlugins.mkTmuxPlugin {
+                pluginName = "catppuccin";
+                version = "unstable-2023-09-21";
+                src = pkgs.fetchFromGitHub {
+                  owner = "catppuccin";
+                  repo = "tmux";
+                  rev = "2ff900dc7a1579085cc2362fe459a1ecff78eec4";
+                  hash = "sha256-78TRFzWUKLR4QuZeiXTa4SzWHxprWav93G21uUKzBfA=";
+                };
+                postInstall = ''
+                  sed -i -e 's|''${PLUGIN_DIR}/catppuccin-selected-theme.tmuxtheme|''${TMUX_TMPDIR}/catppuccin-selected-theme.tmuxtheme|g' $target/catppuccin.tmux
+                '';
+              }).rtp}
+
               # ============================================= #
             '';
           };
