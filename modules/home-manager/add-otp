@@ -22,7 +22,7 @@ urldecode() {
 	echo -e "$(sed 's/+/ /g; s/%\([0-9a-fA-F][0-9a-fA-F]\)/\\x\1/g')"
 }
 
-# Extract issuer and decode
-issuer=$(echo "$uri" | awk -F'&' '{split($NF,a,"="); print a[2]}' | urldecode | tr ' ' '_')
+# Extract passname
+passname=$(echo "$uri" | urldecode | sed -e 's/.*totp.//' -e 's/\?.*//' | tr ' ' '_' | tr ':' '/')
 
-echo -n "$uri" | pass otp insert "$issuer"
+echo -n "$uri" | pass otp insert "$passname"
