@@ -291,6 +291,11 @@
             flags = [ "--disable-up-arrow" ];
           };
 
+          programs.password-store = {
+            enable = true;
+            package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+          };
+
           programs.zsh = {
             enable = true;
             defaultKeymap = "viins";
