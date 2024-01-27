@@ -135,13 +135,10 @@
             fd
             fzf
             less
-            nil #lsp for nix
-            # rnix-lsp #another one
             ripgrep
             jq
             just
             go
-            nushell
             lazygit
             htop
             heroku
@@ -149,6 +146,8 @@
 
             trash-cli
             slides
+
+            wormhole-william
 
             # # It is sometimes useful to fine-tune packages, for example, by applying
             # # overrides. You can do that directly here, just don't forget the
@@ -303,6 +302,7 @@
             enableAutosuggestions = true;
             syntaxHighlighting.enable = true;
             shellAliases = {
+              wormhole = "wormhole-william";
               mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
               ls = "ls --color=auto -F";
               hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;tmux source-file ~/.config/tmux/tmux.conf";
