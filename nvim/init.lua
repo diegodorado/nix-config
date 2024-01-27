@@ -21,6 +21,12 @@ require('lazy').setup({
 
   -- Although I like it, I am not ready for this
   -- 'vimpostor/vim-tpipeline',
+  {
+    'NvChad/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup {}
+    end,
+  },
 
   -- Git related plugins
   'tpope/vim-fugitive',
