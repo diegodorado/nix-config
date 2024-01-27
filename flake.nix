@@ -162,6 +162,7 @@
             #echo "Hello, ${config.home.username}!"
             #'')
             (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
+            (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
           ];
 
           # TODO: add these files to home.file

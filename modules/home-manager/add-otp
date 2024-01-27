@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Reads a QR code from the screen,
+# and adds/updates a pass otp entry
+# NOTE: depends on many executables
+# and only works on linux
+
+uri=$(grim - | zbarimg -q --oneshot --raw -)
+if [ "$?" -ne 0 ]; then
+	# no qr found
+	exit 1
+fi
+
+pass otp validate "$uri" 2>/dev/null
+if [ "$?" -ne 0 ]; then
+	# uri invalid
+	exit 2
+fi
+
+# Function to URL decode
+urldecode() {
+	echo -e "$(sed 's/+/ /g; s/%\([0-9a-fA-F][0-9a-fA-F]\)/\\x\1/g')"
+}
+
+# Extract issuer and decode
+issuer=$(echo "$uri" | awk -F'&' '{split($NF,a,"="); print a[2]}' | urldecode | tr ' ' '_')
+
+echo -n "$uri" | pass otp insert "$issuer"
