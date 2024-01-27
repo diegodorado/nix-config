@@ -1,6 +1,7 @@
 local servers = {
   clangd = {},
   rnix = {},
+  standardrb = {},
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},

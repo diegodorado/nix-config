@@ -171,10 +171,8 @@
           # ~/.config/sway/config
           # ~/.config/swaylock/config
           # ~/.config/tofi/config
-          # ~/.config/waybar/
           # ~/.config/waybar/config.jsonc
           # ~/.config/waybar/style.css
-          # ~/.config/wob.ini
           # ~/bin/otp
 
           # These are linux specific configurations
@@ -313,6 +311,7 @@
               grepjs = "grep --include=\\*.{js,ts,tsx} --exclude-dir=node_modules -rEn";
               cat = "bat";
               g = "git";
+              lg = "lazygit";
               lv = "NVIM_APPNAME=lnvim nvim"; # legacy lazyvim
               v = "nvim";
               # `t` to open tmux, `tt` to open a certain tmux session
