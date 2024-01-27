@@ -331,6 +331,10 @@
               '';
           };
 
+          programs.mpv = {
+            enable = true;
+          };
+
           programs.tmux = {
             enable = true;
             sensibleOnTop = true;
