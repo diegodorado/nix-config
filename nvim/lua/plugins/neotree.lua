@@ -1,25 +1,25 @@
+-- neotree filter was buggy as hell
+-- nvim-tree is less feature complete,
+-- but at least searching works ok
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  version = "*",
+  'nvim-tree/nvim-tree.lua',
+  version = '*',
+  lazy = false,
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    "MunifTanjim/nui.nvim",
+    'nvim-tree/nvim-web-devicons',
   },
   config = function()
-    require('neo-tree').setup {
-      popup_border_style = "rounded",
-      window = {
-        width = 40,
-        auto_expand_width = true,
+    require('nvim-tree').setup {
+      view = {
+        width = 50,
       },
-      follow_current_file = {
-        enabled = true,          -- This will find and focus the file in the active buffer every time
-        --               -- the current file is changed while the tree is open.
-        leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+      renderer = {
+        group_empty = true,
       },
-      use_libuv_file_watcher = true,
+      -- filters = {
+      --   dotfiles = true,
+      -- },
     }
   end,
-  vim.keymap.set('n', '<leader>fe', '<Cmd>Neotree toggle<CR>')
+  vim.keymap.set('n', '<leader>fe', '<Cmd>NvimTreeToggle<CR>'),
 }
