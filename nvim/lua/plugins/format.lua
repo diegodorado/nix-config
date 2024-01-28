@@ -11,11 +11,13 @@ return {
         'prettierd',
         'stylua',
         'eslint_d',
+        'google-java-format',
       },
     }
 
     require('conform').setup {
       formatters_by_ft = {
+        java = { 'google-java-format' },
         javascript = { 'prettierd', 'eslint_d' },
         javascriptreact = { 'prettierd', 'eslint_d' },
         typescript = { 'prettierd', 'eslint_d' },
@@ -33,11 +35,13 @@ return {
         lua = { 'stylua' },
         sh = { 'shfmt' },
       },
+      log_level = vim.log.levels.DEBUG,
+
       format_on_save = {
         -- These options will be passed to conform.format()
         async = false,
         -- eslint_d is fast, but not the very first run
-        timeout_ms = 2500,
+        timeout_ms = 5000,
         lsp_fallback = true,
       },
     }
