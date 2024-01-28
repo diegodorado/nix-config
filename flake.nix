@@ -139,7 +139,6 @@
             jq
             just
             go
-            lazygit
             htop
             heroku
             gh
@@ -443,6 +442,7 @@
             enable = true;
             settings = {
               git.overrideGpg = true;
+              quitOnTopLevelReturn = true;
             };
           };
 
