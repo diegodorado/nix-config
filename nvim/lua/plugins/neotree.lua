@@ -16,9 +16,9 @@ return {
       renderer = {
         group_empty = true,
       },
-      -- filters = {
-      --   dotfiles = true,
-      -- },
+      update_focused_file = {
+        enable = true,
+      },
     }
   end,
   vim.keymap.set('n', '<leader>fe', '<Cmd>NvimTreeToggle<CR>'),
