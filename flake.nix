@@ -147,7 +147,6 @@
             slides
 
             wormhole-william
-            netcat-gnu
 
             # # It is sometimes useful to fine-tune packages, for example, by applying
             # # overrides. You can do that directly here, just don't forget the
@@ -155,12 +154,16 @@
             # # fonts?
             # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-            # # You can also create simple shell scripts directly inside your
-            # # configuration. For example, this adds a command 'my-hello' to your
-            # # environment:
-            #(pkgs.writeShellScriptBin "my-hello" ''
-            #echo "Hello, ${config.home.username}!"
-            #'')
+            # Connect to "the other" machine
+            (pkgs.writeShellScriptBin "sshh" ''
+              IP=$( ${if pkgs.stdenv.isDarwin then
+                  "dns-sd -t 1 -Q diegodorado-gtr.local"
+                else
+                  "avahi-resolve -n -4 dd-m1.local"
+                } | grep -o "192.*")
+              ssh $IP
+            '')
+
             (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
             (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
           ];
