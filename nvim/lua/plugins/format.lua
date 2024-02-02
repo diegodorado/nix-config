@@ -34,6 +34,7 @@ return {
         handlebars = { 'prettierd' },
         lua = { 'stylua' },
         sh = { 'shfmt' },
+        swift = { 'swift_format' },
       },
       log_level = vim.log.levels.DEBUG,
 

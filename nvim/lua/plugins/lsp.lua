@@ -86,6 +86,13 @@ return {
       on_attach = on_attach,
     }
 
+    require('lspconfig').sourcekit.setup {
+      -- cmd = 'xcrun sourcekit-lsp',
+      filetypes = { 'swift', 'objective-c', 'objective-cpp' },
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
+
     require('mason-lspconfig').setup_handlers {
       function(server_name)
         require('lspconfig')[server_name].setup {

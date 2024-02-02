@@ -147,6 +147,7 @@
             slides
 
             wormhole-william
+            swift-format
 
             # # It is sometimes useful to fine-tune packages, for example, by applying
             # # overrides. You can do that directly here, just don't forget the
@@ -297,6 +298,9 @@
           programs.password-store = {
             enable = true;
             package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+            settings = {
+              PASSWORD_STORE_DIR = "${config.home.homeDirectory}/.password-store";
+            };
           };
 
           programs.zsh = {
