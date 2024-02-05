@@ -1,25 +1,7 @@
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = {
-      'nix',
-      'c',
-      'cpp',
-      'go',
-      'lua',
-      'python',
-      'rust',
-      'tsx',
-      'javascript',
-      'typescript',
-      'vimdoc',
-      'vim',
-      'bash',
-      'yaml',
-      'ruby',
-      'supercollider',
-      'haskell',
-    },
+    -- empty, as parsers are installed through nix
+    ensure_installed = {},
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -29,7 +11,10 @@ vim.defer_fn(function()
     ignore_install = {},
     -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
     modules = {},
-    highlight = { enable = true },
+    highlight = {
+      enable = true,
+      disable = { 'c' },
+    },
     indent = { enable = true },
     incremental_selection = {
       enable = true,
@@ -84,5 +69,4 @@ return {
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
-  build = ':TSUpdate',
 }

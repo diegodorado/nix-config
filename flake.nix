@@ -238,12 +238,34 @@
             vimAlias = true;
             vimdiffAlias = true;
             defaultEditor = true;
+            plugins = [
+              (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p;[
+                bash
+                c
+                cpp
+                go
+                haskell
+                java
+                javascript
+                lua
+                nix
+                python
+                ruby
+                rust
+                supercollider
+                swift
+                tsx
+                typescript
+                vim
+                vimdoc
+                yaml
+              ]))
+            ];
           };
 
 
-
           programs.bat.enable = true;
-          programs.bat.config.theme = "Catppuccin";
+          # programs.bat.config.theme = "Catppuccin";
           programs.fzf.enable = true;
           programs.fzf.enableZshIntegration = true;
 

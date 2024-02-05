@@ -59,6 +59,11 @@ require('lazy').setup({
   change_detection = {
     enabled = false,
   },
+  performance = {
+    -- do not reset, so we get treesitter
+    -- installed by nix
+    reset_packpath = false,
+  },
 })
 
 -- See `:help vim.highlight.on_yank()`
