@@ -219,10 +219,12 @@
             "./.config/nvim/" = {
               source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/nvim";
             };
-            ".ssh/allowed_signers".text = '' 
-              * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChzNl+06IY+jUmgvD1Pp8cav1cAO6U0ml2FCSm9X5p6age0EqvYdcZOA8DjoP605arSEjT+kw1ncbqW58lNbssxozxlt2O/KyTVVNjtnogpSgaxXnwdBi/kYX1tqfiilaX2D/BVoAhRuSEUu73otbv8roSIfbio3lHegbjKWGdplVV7dxT307AHz8n0GZLGU+nO6bGynALAdjfEp1TCTmsTJ22A8YdztxtVkYNO+f5koNyEliIZT/arXr2KdvpN7+IUIR6mOsBuQ1/zt5c65y+fEllvMtZ6PmpjRuCansei8gyqYHbGcD2uJqu5wIsADw+T04/ikm7Fa4mOuN1+0Sihe13dUCXlPd6vCrHwF1MMUlNs9O9u6ImI/ejQ8Q9iWvHyNM7b1ZeT0aALGCZ08OuyuP6g5mUF1dT9/vrCYf2xjHCSAbxPg0B8ZODSp2j6UOUfMFsHJy+AHrj5u5QPxMr8/F7f/79N8RJK71kH8AiVwEWT9G0KOKQleFRl/alu3n/rH1I19lD9KBj82UUZxkMCPnbILEv4Ay2ELiPZ+8uPZsvvm7RbjEtCRC/D2XhxluGz1HFJ6nLxH3OWIXM8W0UKNMIlwR+tA1b83vY8LRhnF8GelzgTeakbCVcv5SDIbG/umfF82Pi+xOvplyG9WXCO2WSiinBNNh/14fFQN2CcQ== diegodorado@gmail.com
-              * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBOIPunUINNvAF+xTstCiWgH82iUBrkfzc8USXJaibu diegodorado@gmail.com
-            '';
+            ".ssh/allowed_signers".text =
+              if pkgs.stdenv.isDarwin then ''
+                * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBOIPunUINNvAF+xTstCiWgH82iUBrkfzc8USXJaibu diegodorado@gmail.com
+              '' else ''
+                * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChzNl+06IY+jUmgvD1Pp8cav1cAO6U0ml2FCSm9X5p6age0EqvYdcZOA8DjoP605arSEjT+kw1ncbqW58lNbssxozxlt2O/KyTVVNjtnogpSgaxXnwdBi/kYX1tqfiilaX2D/BVoAhRuSEUu73otbv8roSIfbio3lHegbjKWGdplVV7dxT307AHz8n0GZLGU+nO6bGynALAdjfEp1TCTmsTJ22A8YdztxtVkYNO+f5koNyEliIZT/arXr2KdvpN7+IUIR6mOsBuQ1/zt5c65y+fEllvMtZ6PmpjRuCansei8gyqYHbGcD2uJqu5wIsADw+T04/ikm7Fa4mOuN1+0Sihe13dUCXlPd6vCrHwF1MMUlNs9O9u6ImI/ejQ8Q9iWvHyNM7b1ZeT0aALGCZ08OuyuP6g5mUF1dT9/vrCYf2xjHCSAbxPg0B8ZODSp2j6UOUfMFsHJy+AHrj5u5QPxMr8/F7f/79N8RJK71kH8AiVwEWT9G0KOKQleFRl/alu3n/rH1I19lD9KBj82UUZxkMCPnbILEv4Ay2ELiPZ+8uPZsvvm7RbjEtCRC/D2XhxluGz1HFJ6nLxH3OWIXM8W0UKNMIlwR+tA1b83vY8LRhnF8GelzgTeakbCVcv5SDIbG/umfF82Pi+xOvplyG9WXCO2WSiinBNNh/14fFQN2CcQ== diegodorado@gmail.com
+              '';
           };
 
           home.sessionVariables = {
