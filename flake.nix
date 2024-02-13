@@ -143,6 +143,9 @@
             heroku
             gh
 
+            build2
+            bdep
+
             trash-cli
             slides
 

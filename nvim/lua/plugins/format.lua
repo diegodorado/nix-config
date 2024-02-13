@@ -7,6 +7,7 @@ return {
       -- start; they should be the names Mason uses for each tool
       ensure_installed = {
         -- "black",
+        'rustfmt',
         'shfmt',
         'prettierd',
         'stylua',
@@ -33,6 +34,7 @@ return {
         graphql = { 'prettierd' },
         handlebars = { 'prettierd' },
         lua = { 'stylua' },
+        rust = { 'rustfmt' },
         sh = { 'shfmt' },
         swift = { 'swift_format' },
       },
