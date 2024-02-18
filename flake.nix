@@ -143,8 +143,12 @@
             heroku
             gh
 
+            # cpp build tools
             build2
             bdep
+
+            # oscsend/dump
+            liblo
 
             trash-cli
             slides
