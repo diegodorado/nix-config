@@ -30,7 +30,7 @@ local on_attach = function(client, bufnr)
   end
 
   if client.name == 'eslint' then
-    vim.api.nvim_create_autocmd('BufWritePre', {
+    vim.api.nvim_create_autocmd('BufWritePost', {
       buffer = bufnr,
       command = 'EslintFixAll',
     })
