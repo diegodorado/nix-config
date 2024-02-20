@@ -153,6 +153,8 @@
             trash-cli
             slides
 
+            sox
+
             wormhole-william
             swift-format
 
