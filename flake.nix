@@ -154,6 +154,7 @@
             slides
 
             sox
+            ffmpeg
 
             wormhole-william
             swift-format
