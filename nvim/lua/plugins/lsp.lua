@@ -5,6 +5,9 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
+  eslint = {
+    filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx', 'svelte' },
+  },
   tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
   lua_ls = {
@@ -24,6 +27,13 @@ local on_attach = function(client, bufnr)
       desc = 'LSP: ' .. desc
     end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  if client.name == 'eslint' then
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      buffer = bufnr,
+      command = 'EslintFixAll',
+    })
   end
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')

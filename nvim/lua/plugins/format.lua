@@ -11,7 +11,6 @@ return {
         'shfmt',
         'prettierd',
         'stylua',
-        'eslint_d',
         'google-java-format',
       },
     }
@@ -19,11 +18,11 @@ return {
     require('conform').setup {
       formatters_by_ft = {
         java = { 'google-java-format' },
-        javascript = { 'prettierd', 'eslint_d' },
-        javascriptreact = { 'prettierd', 'eslint_d' },
-        typescript = { 'prettierd', 'eslint_d' },
-        typescriptreact = { 'prettierd', 'eslint_d' },
-        vue = { 'prettierd', 'eslint_d' },
+        javascript = { 'prettierd' },
+        javascriptreact = { 'prettierd' },
+        typescript = { 'prettierd' },
+        typescriptreact = { 'prettierd' },
+        vue = { 'prettierd' },
         css = { 'prettierd' },
         scss = { 'prettierd' },
         html = { 'prettierd' },
