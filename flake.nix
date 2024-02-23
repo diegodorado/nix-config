@@ -238,8 +238,35 @@
           };
 
           home.sessionVariables = {
-            PAGER = "less";
+            PAGER = "less -R";
             CLICOLOR = 1;
+          };
+
+          programs.nnn = {
+            enable = true;
+            package = pkgs.nnn.override {
+              withNerdIcons = true;
+            };
+            bookmarks = {
+              D = "~/Documents";
+              d = "~/Downloads";
+              c = "~/Code";
+              v = "~/Videos";
+            };
+            plugins = {
+              src =
+                (pkgs.fetchFromGitHub {
+                  owner = "jarun";
+                  repo = "nnn";
+                  rev = "v4.5";
+                  sha256 = "sha256-uToAgWpGaTPTMYJh1D0xgvE23GSIshv1OBlWxXI07Mk=";
+                })
+                + "/plugins";
+              mappings = {
+                z = "autojump"; # zoxide
+                p = "preview-tui";
+              };
+            };
           };
 
           programs.neovim = {
@@ -369,9 +396,10 @@
             };
             plugins = [ ];
             initExtra = ''
-              '' + (builtins.readFile ./modules/home-manager/zsh-init-extra.zsh);
+            '' + (builtins.readFile ./modules/home-manager/zsh-init-extra.zsh);
             envExtra = ''
-              '';
+              export NNN_FIFO=/tmp/nnn.fifo
+            '';
           };
 
           programs.mpv = {
