@@ -339,7 +339,7 @@
               key = "~/.ssh/id_${if pkgs.stdenv.isDarwin then "ed25519" else "rsa" }.pub";
             };
             extraConfig = {
-              tag.gpgSign = false;
+              tag.gpgSign = true;
               core.editor = "vim";
               push.default = "simple";
               push.autoSetupRemote = true;
