@@ -177,11 +177,11 @@
 
             (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
             (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
+            (pkgs.writeShellScriptBin "wob" (builtins.readFile ./modules/home-manager/wob))
           ];
 
           # TODO: add these files to home.file
           # /usr/share/sway/scripts/waybar.sh
-          # /usr/share/sway/scripts/wob.sh 
           # ~/.config/sway/config
           # ~/.config/swaylock/config
           # ~/.config/tofi/config
