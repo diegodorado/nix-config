@@ -317,7 +317,7 @@
               co = "checkout";
               cp = "cherry-pick";
               fix = "!sh -c 'nvim \$(git diff --name-only --relative --diff-filter=U | uniq)'";
-              pr = "!sh -c 'GH_FORCE_TTY=100% gh pr list --limit 300 | fzf --ansi --preview \"GH_FORCE_TTY=100% gh pr view {1}\" --preview-window down,70% --header-lines 3 | awk \"{print $1}\" | xargs gh pr checkout'";
+              pr = "!sh -c 'GH_FORCE_TTY=100% gh pr list --limit 300 | grep -E \"#[0-9]+\" | fzf --ansi --preview \"GH_FORCE_TTY=100% gh pr view {1}\" --preview-window down,70% --header-lines 3 | sed \"s/.*#\\([0-9]\\+\\).*/\\1/\" | xargs --no-run-if-empty  gh pr checkout'";
               cm = "commit";
               rb = "rebase";
               rs = "restore";
