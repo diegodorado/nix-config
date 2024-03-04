@@ -132,6 +132,7 @@
             # }))
 
             curl
+            tldr
             fd
             fzf
             less
