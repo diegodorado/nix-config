@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# https://github.com/francma/wob/wiki/wob-wrapper-script
+
+wob_pipe="$HOME/.cache/wob.sock"
+wob_config="$HOME/.config/wob.ini"
+
+# Create the named pipe if it doesn't exist
+[[ ! -p $wob_pipe ]] && mkfifo $wob_pipe
+
+# Start tail only if "wob" process doesn't exist
+if ! pgrep -x wob >/dev/null; then
+	tail -f $wob_pipe | wob -c $wob_config &
+fi
+
+# Send the parameter to the named pipe
+echo $1 >$wob_pipe

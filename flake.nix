@@ -181,7 +181,7 @@
 
             (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
             (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
-            (pkgs.writeShellScriptBin "wob" (builtins.readFile ./modules/home-manager/wob))
+            (pkgs.writeShellScriptBin "wob-wrapper" (builtins.readFile ./modules/home-manager/wob-wrapper))
           ];
 
           # TODO: add these files to home.file
