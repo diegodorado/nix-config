@@ -1,19 +1,11 @@
 case "$(uname -s)" in
   Darwin)
-    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-    export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-    export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
     export ANDROID_HOME=$HOME/Library/Android/sdk
     #load asdf
     source "$(brew --prefix asdf)/libexec/asdf.sh"
     ;;
 
   Linux)
-
-    # now pbcopy and pbpaste works the same on both OSes
-    alias pbcopy='xclip -selection clipboard'
-    alias pbpaste='xclip -selection clipboard -o'
 
     export ANDROID_HOME=$HOME/Android/Sdk
     #load asdf

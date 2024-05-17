@@ -24,6 +24,9 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('n', 'L', ':bnext<CR>')
 vim.keymap.set('n', 'H', ':bprev<CR>')
 
+-- semicolon to colon
+vim.keymap.set('n', ';', ':')
+
 -- vim.keymap.set("n", "J", "mzJ`z")
 -- vim.keymap.set("n", "<C-d>", "<C-d>zz")
 -- vim.keymap.set("n", "<C-u>", "<C-u>zz")

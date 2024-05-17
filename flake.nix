@@ -446,6 +446,7 @@
               # split windows
               bind '-' "split-window -v -c '#{pane_current_path}'"
               bind '\' "split-window -h -c '#{pane_current_path}'"
+              bind '|' "split-window -h -c '#{pane_current_path}'"
 
               # resize panes
               bind -r h resize-pane -L 2
