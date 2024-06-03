@@ -12,7 +12,10 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts?rev=f7b3c975cf067e56e7cda6cb098ebe3fb4d74ca2";
+    };
+
     nixos-flake.url = "github:srid/nixos-flake";
 
     # some GL apps needs to be wrapped...
@@ -377,7 +380,7 @@
             enable = true;
             defaultKeymap = "viins";
             enableCompletion = true;
-            enableAutosuggestions = true;
+            autosuggestion.enable = true;
             syntaxHighlighting.enable = true;
             shellAliases = {
               wormhole = "wormhole-william";
@@ -391,7 +394,6 @@
               df = "df -h"; # Human-readable sizes
               free = "free -m"; # Show sizes in MB
               open = "xdg-open";
-              grepjs = "grep --include=\\*.{js,ts,tsx} --exclude-dir=node_modules -rEn";
               cat = "bat";
               g = "git";
               lg = "lazygit";
