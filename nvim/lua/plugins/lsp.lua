@@ -2,6 +2,7 @@ local servers = {
   clangd = {},
   rnix = {},
   standardrb = {},
+  openscad_lsp = {},
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},

@@ -296,6 +296,7 @@
                 javascript
                 lua
                 nix
+                openscad
                 python
                 ruby
                 rust
