@@ -525,7 +525,7 @@
             settings = {
               git.overrideGpg = true;
               quitOnTopLevelReturn = true;
-              gui.skipDiscardChangeWarning = false;
+              gui.skipDiscardChangeWarning = true;
               gui.mouseEvents = false;
               gui.showCommandLog = false;
               gui.showBottomLine = false;
