@@ -525,6 +525,13 @@
             settings = {
               git.overrideGpg = true;
               quitOnTopLevelReturn = true;
+              gui.skipDiscardChangeWarning = false;
+              gui.mouseEvents = false;
+              gui.showCommandLog = false;
+              gui.showBottomLine = false;
+              gui.showPanelJumps = false;
+              keybinding.universal.toggleWhitespaceInDiffView = "";
+              keybinding.universal.togglePanel = "<c-w>";
             };
           };
 
