@@ -58,9 +58,13 @@ return {
         return vim.fn.executable 'make' == 1
       end,
     },
+    {
+      'nvim-telescope/telescope-ui-select.nvim',
+    },
   },
   config = function()
-    require('telescope').setup {
+    local telescope = require 'telescope'
+    telescope.setup {
       defaults = {
         mappings = {
           i = {
@@ -70,8 +74,12 @@ return {
         },
       },
     }
+
+    -- sets vim.ui.select to telescope
+    telescope.load_extension 'ui-select'
+
     -- Enable telescope fzf native, if installed
-    pcall(require('telescope').load_extension, 'fzf')
+    pcall(telescope.load_extension, 'fzf')
     vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
     -- See `:help telescope.builtin`
