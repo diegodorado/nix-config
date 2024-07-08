@@ -51,9 +51,6 @@ require('lazy').setup({
     priority = 1000,
   },
 
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
-
   { import = 'plugins' },
 }, {
   change_detection = {
