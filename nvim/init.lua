@@ -29,6 +29,22 @@ require('lazy').setup({
   },
 
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    opts = { max_lines = 3 },
+    event = 'VeryLazy',
+    keys = {
+      {
+        '<leader>tc',
+        function()
+          local tsc = require 'treesitter-context'
+          tsc.toggle()
+        end,
+        desc = 'Toggle Treesitter Context',
+      },
+    },
+  },
+
+  {
     -- better ui prompts
     'stevearc/dressing.nvim',
     opts = {
