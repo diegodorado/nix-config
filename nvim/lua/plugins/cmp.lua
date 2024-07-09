@@ -12,6 +12,14 @@ return {
 
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
+
+    -- Adds codeium AI assistance
+    {
+      'Exafunction/codeium.nvim',
+      cmd = 'Codeium',
+      build = ':Codeium Auth',
+      opts = {},
+    },
   },
   config = function()
     -- See `:help cmp`
@@ -63,6 +71,11 @@ return {
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer' },
+        {
+          name = 'codeium',
+          group_index = 1,
+          priority = 100,
+        },
       },
     }
   end,

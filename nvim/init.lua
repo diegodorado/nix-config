@@ -59,11 +59,17 @@ require('lazy').setup({
       require('catppuccin').setup {
         -- transparent_background = true, -- disables setting the background color.
         integrations = {
+          cmp = true,
           harpoon = true,
+          dashboard = true,
           fidget = true,
           mason = true,
           neotree = true,
           lsp_trouble = true,
+          telescope = true,
+          gitsigns = true,
+          treesitter = true,
+          treesitter_context = true,
           which_key = true,
         },
       }
