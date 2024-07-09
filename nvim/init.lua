@@ -28,6 +28,27 @@ require('lazy').setup({
     end,
   },
 
+  {
+    -- better ui prompts
+    'stevearc/dressing.nvim',
+    opts = {
+      input = {
+        get_config = function(opts)
+          -- hack for :Gen Chat
+          if opts.kind == 'prompt' then
+            return {
+              relative = 'editor',
+              prefer_width = 0.8,
+              win_options = {
+                wrap = true,
+              },
+            }
+          end
+        end,
+      },
+    },
+  },
+
   -- Git related plugins
   'tpope/vim-fugitive',
 
