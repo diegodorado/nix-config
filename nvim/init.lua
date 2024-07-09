@@ -49,9 +49,6 @@ require('lazy').setup({
     },
   },
 
-  -- Git related plugins
-  'tpope/vim-fugitive',
-
   {
     'catppuccin/nvim',
     name = 'catppuccin',
