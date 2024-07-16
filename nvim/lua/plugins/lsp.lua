@@ -1,7 +1,6 @@
 local servers = {
   clangd = {},
   rnix = {},
-  standardrb = {},
   openscad_lsp = {},
   -- gopls = {},
   -- pyright = {},
@@ -93,6 +92,13 @@ return {
 
     -- dart special case: lsp is not installed by mason. it is dart itself
     require('lspconfig').dartls.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
+
+    -- ruby: use binary from gems, not a global one installed by mason
+    require('lspconfig').standardrb.setup {
+      cmd = { 'bin/standardrb', '--lsp' },
       capabilities = capabilities,
       on_attach = on_attach,
     }
