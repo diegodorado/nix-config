@@ -120,20 +120,6 @@
           home.packages = with pkgs; [
             (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
 
-            # FIXME: this tmux version is compiled with sixel support
-            # but wezterm does not manage to inform it does support sixel
-            # (tmux.overrideAttrs (x: {
-            #   configureFlags = (x.configureFlags or [ ]) ++
-            #     [ "--enable-sixel" ];
-            #   src = fetchFromGitHub {
-            #     owner = "tmux";
-            #     repo = "tmux";
-            #     rev = "ea7136fb838a2831d38e11ca94094cea61a01e3a";
-            #     hash = "sha256-toyK1X34IJ2E6tQd7sa/rEo7HcLppVHkwdttt4IWEnk=";
-            #   };
-            #   patches = [ ];
-            # }))
-
             curl
             tldr
             fd
@@ -205,7 +191,6 @@
           # These are linux specific configurations
           home.file = (if pkgs.stdenv.isDarwin then { } else {
             # # symlink to the Nix store copy.
-            # ".screenrc".source = dotfiles/screenrc;
 
             ".config/mako/config".text = ''
               default-timeout=10000
@@ -236,12 +221,19 @@
             ".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
             # simple approach: symlink nvim to this repository
-            "./.config/lnvim/" = {
-              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/lnvim";
-            };
             "./.config/nvim/" = {
               source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/nvim";
             };
+
+            # same for wezterm, for hot reload config
+            # extraConfig = builtins.readFile ./modules/home-manager/wezterm/wezterm.lua;
+            "./.config/wezterm/" = {
+              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/wezterm";
+
+            };
+
+
+
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
                 * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBOIPunUINNvAF+xTstCiWgH82iUBrkfzc8USXJaibu diegodorado@gmail.com
@@ -462,9 +454,6 @@
               # switch back to previous session on detach
               set-option -g detach-on-destroy off
 
-              # thumbs copy to clipboard, not to buffer
-              # set -g @thumbs-command 'echo -n {} | pbcopy'
-
               # suggested by vim :checkhealth
               set-option -sa terminal-features ',tmux-256color:RGB'
 
@@ -542,59 +531,12 @@
           programs.wezterm = {
             enable = true;
             enableZshIntegration = true;
-            extraConfig = ''
-
-              wezterm.on('toggle-opacity', function(window, pane)
-                local overrides = window:get_config_overrides() or {}
-                if not overrides.window_background_opacity then
-                  overrides.window_background_opacity = 0
-                else
-                  overrides = {}
-                end
-                window:set_config_overrides(overrides)
-              end)
-
-              wezterm.on("gui-startup", function(cmd)
-                local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
-                window:gui_window():maximize()
-              end)
-
-              return {
-                font = wezterm.font {
-                  family = "JetBrains Mono",
-                },
-                font_size = 16.0,
-                color_scheme = "Catppuccin Mocha",
-                enable_scroll_bar = false,
-                enable_tab_bar = false,
-
-                window_padding = {
-                  left = 0,
-                  right = 0,
-                  top = 0,
-                  bottom = 0,
-                },
-                window_close_confirmation = 'NeverPrompt',
-                window_decorations = 'RESIZE',
-
-
-                keys = {
-                  {key="l", mods="SHIFT|CTRL", action="ShowDebugOverlay"},
-                  {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
-                  {
-                    key = 'B',
-                    mods = 'SHIFT|CTRL',
-                    action = wezterm.action.EmitEvent 'toggle-opacity',
-                  },
-                },
-
-              }
-            '';
             package =
               if pkgs.stdenv.isDarwin then
                 pkgs.wezterm
               else (nixGLWrap pkgs.wezterm);
           };
+          xdg.configFile."wezterm/wezterm.lua".enable = false;
 
           # Let Home Manager install and manage itself.
           programs.home-manager.enable = true;
