@@ -21,8 +21,32 @@ wezterm.on("toggle-opacity", function(window, pane)
 	window:set_config_overrides(overrides)
 end)
 
+local function dark_schemes()
+	local schemes = wezterm.color.get_builtin_schemes()
+	local dark = {}
+	for name, scheme in pairs(schemes) do
+		-- parse into a color object
+		if not (scheme.background == nil) then
+			local bg = wezterm.color.parse(scheme.background)
+			-- and extract HSLA information
+			local h, s, l, a = bg:hsla()
+
+			-- `l` is the "lightness" of the color where 0 is darkest
+			-- and 1 is lightest.
+			if l < 0.2 then
+				table.insert(dark, name)
+			end
+		end
+	end
+
+	table.sort(dark)
+	return dark
+end
+
+local dark = dark_schemes()
+
 wezterm.on("window-config-reloaded", function(window, pane)
-	window:toast_notification("wezterm", "configuration reloadedlll!", nil, 4000)
+	window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
 end)
 
 wezterm.on("gui-startup", function(cmd)
@@ -30,21 +54,16 @@ wezterm.on("gui-startup", function(cmd)
 	window:gui_window():maximize()
 end)
 
--- The filled in variant of the < symbol
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_left_half_circle_thick
--- The filled in variant of the > symbol
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_right_half_circle_thick
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local edge_background = "rgb(0,0,0,0)"
-	local background = "#1b1032"
-	local foreground = "#808080"
+	local colors = config.resolved_palette.tab_bar
+	local state = tab.is_active and "active_tab" or "inactive_tab"
+	local background = colors[state].bg_color
+	local foreground = colors[state].fg_color
 
-	if tab.is_active then
-		background = "#2b2042"
-		foreground = "#c0c0c0"
-	end
-
+	local edge_background = colors.background
 	local edge_foreground = background
 
 	-- ensure that the titles fit in the available space,
@@ -57,12 +76,15 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		{ Text = " " .. SOLID_LEFT_ARROW },
 		{ Background = { Color = background } },
 		{ Foreground = { Color = foreground } },
-		-- { Text = " " .. title .. " " },
 		{ Text = title },
 		{ Background = { Color = edge_background } },
 		{ Foreground = { Color = edge_foreground } },
 		{ Text = SOLID_RIGHT_ARROW .. " " },
 	}
+end)
+
+wezterm.on("update-right-status", function(window)
+	window:set_right_status(window:active_workspace())
 end)
 
 -- leader key bindings (tmux prefix replacement)
@@ -112,9 +134,7 @@ return {
 	font_size = 16.0,
 	color_scheme = "Catppuccin Mocha",
 	enable_scroll_bar = false,
-	-- enable_tab_bar = false,
 	enable_tab_bar = true,
-	-- use_fancy_tab_bar = true,
 	use_fancy_tab_bar = false,
 	tab_bar_at_bottom = true,
 	show_new_tab_button_in_tab_bar = false,
@@ -141,19 +161,7 @@ return {
 
 	colors = {
 		tab_bar = {
-			-- The color of the strip that goes along the top of the window
-			-- (does not apply when fancy tab bar is in use)
 			background = "rgba(0,0,0,0)",
-
-			active_tab = {
-				bg_color = "#007777",
-				fg_color = "#c0c0c0",
-			},
-
-			inactive_tab = {
-				bg_color = "#1b1032",
-				fg_color = "#808080",
-			},
 		},
 	},
 
@@ -169,12 +177,54 @@ return {
 	-- timeout_milliseconds defaults to 1000 and can be omitted
 	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
 
+	launch_menu = {
+		{
+			args = { "top" },
+		},
+		{
+			-- Optional label to show in the launcher. If omitted, a label
+			-- is derived from the `args`
+			label = "Bash",
+			-- The argument array to spawn.  If omitted the default program
+			-- will be used as described in the documentation above
+			args = { "bash", "-l" },
+
+			-- You can specify an alternative current working directory;
+			-- if you don't specify one then a default based on the OSC 7
+			-- escape sequence will be used (see the Shell Integration
+			-- docs), falling back to the home directory.
+			-- cwd = "/some/path"
+
+			-- You can override environment variables just for this command
+			-- by setting this here.  It has the same semantics as the main
+			-- set_environment_variables configuration option described above
+			-- set_environment_variables = { FOO = "bar" },
+		},
+	},
+
 	keys = {
 		leader_key("c", act.SpawnTab("CurrentPaneDomain")),
 		leader_key("-", act.SplitVertical({ domain = "CurrentPaneDomain" })),
 		leader_key("\\", act.SplitHorizontal({ domain = "CurrentPaneDomain" })),
 		leader_key("n", act.ActivateTabRelative(1)),
 		leader_key("z", act.TogglePaneZoomState),
+		leader_key("j", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
+		leader_key("J", act.ShowLauncher),
+		leader_key("l", act.SwitchWorkspaceRelative(1)),
+		leader_key("h", act.SwitchWorkspaceRelative(-1)),
+
+		{
+			key = "r",
+			mods = "LEADER",
+			action = wezterm.action_callback(function(window, pane, line)
+				local scheme = dark[math.random(#dark)]
+				window:set_config_overrides({
+					color_scheme = scheme,
+				})
+
+				window:toast_notification("wezterm", "configuration reloaded " .. window:window_id(), nil, 500)
+			end),
+		},
 
 		-- move between split panes
 		split_nav("move", "h"),
@@ -196,7 +246,7 @@ return {
 			mods = "CTRL|SHIFT",
 			action = act.ReloadConfiguration,
 		},
-		-- { key = "l", mods = "SHIFT|CTRL", action = "ShowDebugOverlay" },
+		{ key = "d", mods = "SHIFT|CTRL", action = "ShowDebugOverlay" },
 		{ key = "n", mods = "SHIFT|CTRL", action = "ToggleFullScreen" },
 		{
 			key = "B",
