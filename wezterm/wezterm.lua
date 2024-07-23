@@ -11,6 +11,17 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
+local color_scheme = "Catppuccin Mocha"
+local scheme = wezterm.get_builtin_color_schemes()[color_scheme]
+-- scheme.background = "rgba(0,0,0,0)"
+scheme.tab_bar.background = "rgba(0,0,0,0)"
+
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name == "SWITCH_WORKSPACE" then
+		wezterm.log_info("var", name, value)
+	end
+end)
+
 wezterm.on("toggle-opacity", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	if not overrides.window_background_opacity then
@@ -20,30 +31,6 @@ wezterm.on("toggle-opacity", function(window, pane)
 	end
 	window:set_config_overrides(overrides)
 end)
-
-local function dark_schemes()
-	local schemes = wezterm.color.get_builtin_schemes()
-	local dark = {}
-	for name, scheme in pairs(schemes) do
-		-- parse into a color object
-		if not (scheme.background == nil) then
-			local bg = wezterm.color.parse(scheme.background)
-			-- and extract HSLA information
-			local h, s, l, a = bg:hsla()
-
-			-- `l` is the "lightness" of the color where 0 is darkest
-			-- and 1 is lightest.
-			if l < 0.2 then
-				table.insert(dark, name)
-			end
-		end
-	end
-
-	table.sort(dark)
-	return dark
-end
-
-local dark = dark_schemes()
 
 wezterm.on("window-config-reloaded", function(window, pane)
 	window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
@@ -57,18 +44,14 @@ end)
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_left_half_circle_thick
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_right_half_circle_thick
 
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local colors = config.resolved_palette.tab_bar
-	local state = tab.is_active and "active_tab" or "inactive_tab"
+local function pill(title, is_active)
+	local colors = scheme.tab_bar
+	local state = is_active and "active_tab" or "inactive_tab"
 	local background = colors[state].bg_color
 	local foreground = colors[state].fg_color
 
 	local edge_background = colors.background
 	local edge_foreground = background
-
-	-- ensure that the titles fit in the available space,
-	-- and that we have room for the edges.
-	local title = wezterm.truncate_right(tab.active_pane.title, max_width - 2)
 
 	return {
 		{ Background = { Color = edge_background } },
@@ -81,10 +64,23 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		{ Foreground = { Color = edge_foreground } },
 		{ Text = SOLID_RIGHT_ARROW .. " " },
 	}
+end
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	-- ensure that the titles fit in the available space,
+	-- and that we have room for the edges.
+	local title = wezterm.truncate_right(tab.active_pane.title, max_width - 2)
+	return pill(title, tab.is_active)
 end)
 
-wezterm.on("update-right-status", function(window)
-	window:set_right_status(window:active_workspace())
+wezterm.on("update-status", function(window)
+	local title = window:active_workspace()
+	window:set_right_status(wezterm.format(pill(title, true)))
+
+	local prefix = window:leader_is_active() and utf8.char(0x1f30a) or "  "
+	window:set_left_status(wezterm.format({
+		{ Text = prefix },
+	}))
 end)
 
 -- leader key bindings (tmux prefix replacement)
@@ -132,7 +128,11 @@ return {
 		family = "JetBrains Mono",
 	}),
 	font_size = 16.0,
-	color_scheme = "Catppuccin Mocha",
+	color_schemes = {
+		-- Override the builtin scheme
+		[color_scheme] = scheme,
+	},
+	color_scheme = color_scheme,
 	enable_scroll_bar = false,
 	enable_tab_bar = true,
 	use_fancy_tab_bar = false,
@@ -175,7 +175,7 @@ return {
 	window_decorations = "RESIZE",
 
 	-- timeout_milliseconds defaults to 1000 and can be omitted
-	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
+	leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 },
 
 	launch_menu = {
 		{
@@ -209,22 +209,10 @@ return {
 		leader_key("n", act.ActivateTabRelative(1)),
 		leader_key("z", act.TogglePaneZoomState),
 		leader_key("j", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
+		leader_key("i", act.ShowLauncherArgs({ title = "Switch to:", flags = "FUZZY|LAUNCH_MENU_ITEMS" })),
 		leader_key("J", act.ShowLauncher),
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
-
-		{
-			key = "r",
-			mods = "LEADER",
-			action = wezterm.action_callback(function(window, pane, line)
-				local scheme = dark[math.random(#dark)]
-				window:set_config_overrides({
-					color_scheme = scheme,
-				})
-
-				window:toast_notification("wezterm", "configuration reloaded " .. window:window_id(), nil, 500)
-			end),
-		},
 
 		-- move between split panes
 		split_nav("move", "h"),

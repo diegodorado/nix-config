@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set_user_var() {
+  printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(echo -n "$2" | base64)
+}
+
+selected=$(find ~/Code -maxdepth 4 -type d -name ".git" | xargs dirname | xargs realpath --relative-to="$HOME/Code" | sort -r | fzf)
+if [[ -z $selected ]]; then
+  exit 0
+fi
+
+workspace_dir="$HOME/Code/$selected"
+workspace=$(basename "$workspace_dir" | tr . _)
+
+set_user_var "SWITCH_WORKSPACE" "$workspace"
+set_user_var "SWITCH_WORKSPACE_DIR" "$workspace_dir"
+
+if wezterm cli list | awk '{ print $4 }' | grep -iq "$workspace"; then
+  echo "workspace already exists"
+else
+  echo "workspace does not exist"
+  wezterm cli spawn --new-window --cwd "$workspace_dir" --workspace "$workspace"
+fi
