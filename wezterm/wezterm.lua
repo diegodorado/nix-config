@@ -65,6 +65,46 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 
+-- leader key bindings (tmux prefix replacement)
+local function leader_key(key, action)
+	return { key = key, mods = "LEADER", action = action }
+end
+
+local function is_vim(pane)
+	-- this is set by the plugin, and unset on ExitPre in Neovim
+	return pane:get_user_vars().IS_NVIM == "true"
+end
+
+local direction_keys = {
+	h = "Left",
+	j = "Down",
+	k = "Up",
+	l = "Right",
+}
+
+local function split_nav(resize_or_move, key)
+	local mods = resize_or_move == "resize" and "CTRL|SHIFT" or "CTRL"
+
+	return {
+		key = key,
+		mods = mods,
+		action = wezterm.action_callback(function(win, pane)
+			if is_vim(pane) then
+				-- pass the keys through to vim/nvim
+				win:perform_action({
+					SendKey = { key = key, mods = mods },
+				}, pane)
+			else
+				if resize_or_move == "resize" then
+					win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
+				else
+					win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
+				end
+			end
+		end),
+	}
+end
+
 return {
 	font = wezterm.font({
 		family = "JetBrains Mono",
@@ -130,11 +170,22 @@ return {
 	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
 
 	keys = {
-		{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-		{ key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-		{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-		{ key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
+		leader_key("c", act.SpawnTab("CurrentPaneDomain")),
+		leader_key("-", act.SplitVertical({ domain = "CurrentPaneDomain" })),
+		leader_key("\\", act.SplitHorizontal({ domain = "CurrentPaneDomain" })),
+		leader_key("n", act.ActivateTabRelative(1)),
+		leader_key("z", act.TogglePaneZoomState),
 
+		-- move between split panes
+		split_nav("move", "h"),
+		split_nav("move", "j"),
+		split_nav("move", "k"),
+		split_nav("move", "l"),
+		-- resize panes
+		split_nav("resize", "h"),
+		split_nav("resize", "j"),
+		split_nav("resize", "k"),
+		split_nav("resize", "l"),
 		{
 			key = "o",
 			mods = "CTRL",
@@ -145,7 +196,7 @@ return {
 			mods = "CTRL|SHIFT",
 			action = act.ReloadConfiguration,
 		},
-		{ key = "l", mods = "SHIFT|CTRL", action = "ShowDebugOverlay" },
+		-- { key = "l", mods = "SHIFT|CTRL", action = "ShowDebugOverlay" },
 		{ key = "n", mods = "SHIFT|CTRL", action = "ToggleFullScreen" },
 		{
 			key = "B",

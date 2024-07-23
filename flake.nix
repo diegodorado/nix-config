@@ -232,8 +232,6 @@
 
             };
 
-
-
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
                 * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBOIPunUINNvAF+xTstCiWgH82iUBrkfzc8USXJaibu diegodorado@gmail.com
@@ -536,6 +534,7 @@
                 pkgs.wezterm
               else (nixGLWrap pkgs.wezterm);
           };
+          # allow to symlink the config file
           xdg.configFile."wezterm/wezterm.lua".enable = false;
 
           # Let Home Manager install and manage itself.
