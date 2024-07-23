@@ -80,10 +80,23 @@ return {
 	show_new_tab_button_in_tab_bar = false,
 	-- hide_tab_bar_if_only_one_tab = true,
 
-	window_background_image = os.getenv("HOME") .. "/Pictures/Background/blob_blue.gif",
-	window_background_image_hsb = {
-		brightness = 0.1,
-		saturation = 1.0,
+	-- window_background_image = os.getenv("HOME") .. "/Pictures/Background/blob_blue.gif",
+	-- window_background_image_hsb = {
+	-- 	brightness = 0.1,
+	-- 	saturation = 1.0,
+	-- },
+
+	ssh_domains = {
+		{
+			-- This name identifies the domain
+			name = "gtr",
+			-- The hostname or address to connect to. Will be used to match settings
+			-- from your ssh config file
+			remote_address = "192.168.0.196",
+			-- The username to use on the remote host
+			username = "diegodorado",
+			remote_wezterm_path = "/home/diegodorado/.nix-profile/bin/wezterm",
+		},
 	},
 
 	colors = {
