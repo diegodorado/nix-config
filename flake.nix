@@ -382,7 +382,6 @@
               hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
               nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
-              rm = "echo -e \"\\e[01;31m Don't use rm. Use 'trash' instead. Or use full path '/bin/rm' \\e[0m\" 2&>"; # Correcting bad habits
               cp = "cp -i"; # Confirm before overwriting something
               df = "df -h"; # Human-readable sizes
               free = "free -m"; # Show sizes in MB
@@ -390,7 +389,6 @@
               cat = "bat";
               g = "git";
               lg = "lazygit";
-              lv = "NVIM_APPNAME=lnvim nvim"; # legacy lazyvim
               v = "nvim";
               gcob = "git branch | fzf | xargs git checkout";
             };
