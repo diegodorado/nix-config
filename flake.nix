@@ -174,7 +174,6 @@
               ssh $IP
             '')
 
-            (pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ./modules/home-manager/tmux-sessionizer))
             (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
             (pkgs.writeShellScriptBin "wob-wrapper" (builtins.readFile ./modules/home-manager/wob-wrapper))
           ];
@@ -380,7 +379,7 @@
               wormhole = "wormhole-william";
               mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
               ls = "ls --color=auto -F";
-              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;tmux source-file ~/.config/tmux/tmux.conf";
+              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;";
               nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
               nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
               rm = "echo -e \"\\e[01;31m Don't use rm. Use 'trash' instead. Or use full path '/bin/rm' \\e[0m\" 2&>"; # Correcting bad habits
@@ -393,9 +392,6 @@
               lg = "lazygit";
               lv = "NVIM_APPNAME=lnvim nvim"; # legacy lazyvim
               v = "nvim";
-              # `t` to open tmux, `tt` to open a certain tmux session
-              t = "TERM=tmux-256color tmux";
-              tt = "tmux-sessionizer";
               gcob = "git branch | fzf | xargs git checkout";
             };
             plugins = [ ];
@@ -408,91 +404,6 @@
 
           programs.mpv = {
             enable = true;
-          };
-
-          programs.tmux = {
-            enable = true;
-            sensibleOnTop = true;
-            terminal = "tmux-256color";
-            historyLimit = 99999;
-            keyMode = "vi";
-            mouse = true;
-            shortcut = "s";
-            baseIndex = 1;
-            escapeTime = 0;
-            disableConfirmationPrompt = true;
-            clock24 = true;
-            plugins = with pkgs.tmuxPlugins; [
-
-              net-speed
-              vim-tmux-navigator
-              tmux-thumbs
-              open
-            ];
-            extraConfig = ''
-              # reload config
-              bind r source-file ~/.config/tmux/tmux.conf \; display-message "config reloaded"
-
-              # split windows
-              bind '-' "split-window -v -c '#{pane_current_path}'"
-              bind '\' "split-window -h -c '#{pane_current_path}'"
-              bind '|' "split-window -h -c '#{pane_current_path}'"
-
-              # resize panes
-              bind -r h resize-pane -L 2
-              bind -r j resize-pane -D 1
-              bind -r k resize-pane -U 1
-              bind -r l resize-pane -R 2
-
-              # sessions
-              bind J display-popup -E 'tmux-sessionizer'
-              bind -r H switch-client -n -n
-              bind -r L switch-client -n 
-
-              # switch back to previous session on detach
-              set-option -g detach-on-destroy off
-
-              # suggested by vim :checkhealth
-              set-option -sa terminal-features ',tmux-256color:RGB'
-
-              # theme
-              set -g @catppuccin_window_left_separator "█"
-              set -g @catppuccin_window_right_separator "█ "
-              set -g @catppuccin_window_number_position "right"
-              set -g @catppuccin_window_middle_separator "  █"
-              set -g @catppuccin_window_default_fill "number"
-              set -g @catppuccin_window_current_fill "number"
-
-              set -g @catppuccin_window_default_background "#313244"
-              set -g @catppuccin_window_current_background "#313244"
-
-              set -g @catppuccin_date_time_text "%d/%m %H:%M"
-              set -g @catppuccin_date_time_icon "null"
-              set -g @catppuccin_status_modules "application session date_time"
-
-              set -g @catppuccin_window_current_format_directory_text "#{b:pane_current_path}"
-              set -g @catppuccin_window_format_directory_text "#{b:pane_current_path}"
-
-              # ============================================= #
-              # HACK - run catppuccin last
-              # Also pick latest version
-              # --------------------------------------------- #
-              run-shell ${(pkgs.tmuxPlugins.mkTmuxPlugin {
-                pluginName = "catppuccin";
-                version = "unstable-2023-09-21";
-                src = pkgs.fetchFromGitHub {
-                  owner = "catppuccin";
-                  repo = "tmux";
-                  rev = "2ff900dc7a1579085cc2362fe459a1ecff78eec4";
-                  hash = "sha256-78TRFzWUKLR4QuZeiXTa4SzWHxprWav93G21uUKzBfA=";
-                };
-                postInstall = ''
-                  sed -i -e 's|''${PLUGIN_DIR}/catppuccin-selected-theme.tmuxtheme|''${TMUX_TMPDIR}/catppuccin-selected-theme.tmuxtheme|g' $target/catppuccin.tmux
-                '';
-              }).rtp}
-
-              # ============================================= #
-            '';
           };
 
           programs.zoxide = {
