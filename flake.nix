@@ -133,15 +133,17 @@
             heroku
             gh
 
+            lsix # ls for images
+
             # cpp build tools
             build2
             bdep
 
-            # oscsend/dump
-            liblo
+            liblo # oscsend/dump
 
             trash-cli
-            slides
+
+            slides # markdown presentation in the terminal
 
             sox
             ffmpeg
@@ -149,8 +151,7 @@
             wormhole-william
             swift-format
 
-            # mobile automation tool
-            maestro
+            maestro # mobile automation tool
 
             leiningen
             clojure
