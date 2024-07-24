@@ -17,8 +17,18 @@ local scheme = wezterm.get_builtin_color_schemes()[color_scheme]
 scheme.tab_bar.background = "rgba(0,0,0,0)"
 
 wezterm.on("user-var-changed", function(window, pane, name, value)
-	if name == "SWITCH_WORKSPACE" then
-		wezterm.log_info("var", name, value)
+	if name == "SWITCH_WORKSPACE_DIR" then
+		local workspace_dir = value
+		local workspace = workspace_dir:match("([^/]+)$"):gsub("%.", "_")
+		window:perform_action(
+			act.SwitchToWorkspace({
+				name = workspace,
+				spawn = {
+					cwd = workspace_dir,
+				},
+			}),
+			pane
+		)
 	end
 end)
 
@@ -33,7 +43,7 @@ wezterm.on("toggle-opacity", function(window, pane)
 end)
 
 wezterm.on("window-config-reloaded", function(window, pane)
-	window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
+	-- window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
 end)
 
 wezterm.on("gui-startup", function(cmd)
@@ -179,7 +189,7 @@ return {
 
 	launch_menu = {
 		{
-			args = { "top" },
+			args = { "htop" },
 		},
 		{
 			-- Optional label to show in the launcher. If omitted, a label
@@ -208,9 +218,16 @@ return {
 		leader_key("\\", act.SplitHorizontal({ domain = "CurrentPaneDomain" })),
 		leader_key("n", act.ActivateTabRelative(1)),
 		leader_key("z", act.TogglePaneZoomState),
-		leader_key("j", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
-		leader_key("i", act.ShowLauncherArgs({ title = "Switch to:", flags = "FUZZY|LAUNCH_MENU_ITEMS" })),
-		leader_key("J", act.ShowLauncher),
+		leader_key(
+			"j",
+			act.SpawnCommandInNewTab({
+				args = { wezterm.config_dir .. "/workspace" },
+				set_environment_variables = {
+					DIR = wezterm.home_dir .. "/Code",
+				},
+			})
+		),
+		leader_key("J", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
 
