@@ -144,6 +144,7 @@
             trash-cli
 
             slides # markdown presentation in the terminal
+            calibre # e-book manager
 
             sox
             ffmpeg
