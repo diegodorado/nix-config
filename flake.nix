@@ -12,9 +12,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts?rev=f7b3c975cf067e56e7cda6cb098ebe3fb4d74ca2";
-    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixos-flake.url = "github:srid/nixos-flake";
 
