@@ -1,5 +1,5 @@
 return {
-  'tpope/vim-fugitive',
+  'sindrets/diffview.nvim',
   {
     'kdheepak/lazygit.nvim',
     -- optional for floating window border decoration
