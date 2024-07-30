@@ -115,7 +115,13 @@
           fonts.fontconfig.enable = true;
           # The home.packages option allows you to install Nix packages into your
           # environment.
-          home.packages = with pkgs; [
+          home.packages = with pkgs; (if pkgs.stdenv.isDarwin then [
+            # darwin only packages
+          ] else [
+            # linux only packages
+            calibre # e-book manager
+            (pkgs.writeShellScriptBin "wob-wrapper" (builtins.readFile ./modules/home-manager/wob-wrapper))
+          ]) ++ [
             (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
 
             curl
@@ -142,7 +148,6 @@
             trash-cli
 
             slides # markdown presentation in the terminal
-            calibre # e-book manager
 
             sox
             ffmpeg
@@ -175,7 +180,6 @@
             '')
 
             (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
-            (pkgs.writeShellScriptBin "wob-wrapper" (builtins.readFile ./modules/home-manager/wob-wrapper))
           ];
 
           # TODO: add these files to home.file
