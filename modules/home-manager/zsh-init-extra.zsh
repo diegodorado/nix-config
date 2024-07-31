@@ -1,3 +1,8 @@
+# Disable glob qualification
+# which causes zsh to treat square brackets as glob patterns
+setopt no_bare_glob_qual
+setopt no_glob_qual
+
 case "$(uname -s)" in
   Darwin)
     export ANDROID_HOME=$HOME/Library/Android/sdk
