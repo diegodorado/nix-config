@@ -96,8 +96,14 @@
         # home-manager configuration goes here.
         homeModules.default = { config, pkgs, ... }: {
           imports = [
+            ./home/programs/atuin.nix
             ./home/programs/git.nix
+            ./home/programs/lazygit.nix
+            ./home/programs/neovim.nix
+            ./home/programs/password-store.nix
+            ./home/programs/starship.nix
             ./home/programs/yazi.nix
+            ./home/programs/zsh.nix
           ];
 
           # HACK: if binary is missing under tofi, delete .cache/tofi*
@@ -252,89 +258,12 @@
             CLICOLOR = 1;
           };
 
-          programs.neovim = {
-            enable = true;
-            viAlias = true;
-            vimAlias = true;
-            vimdiffAlias = true;
-            defaultEditor = true;
-            plugins = [
-              (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p;[
-                bash
-                c
-                cpp
-                go
-                haskell
-                java
-                javascript
-                lua
-                nix
-                # openscad ...not included yet..
-                python
-                ruby
-                rust
-                supercollider
-                swift
-                tsx
-                typescript
-                vim
-                vimdoc
-                yaml
-              ]))
-            ];
-          };
-
-
           programs.bat.enable = true;
           # programs.bat.config.theme = "Catppuccin";
           programs.fzf.enable = true;
           programs.fzf.enableZshIntegration = true;
 
           programs.gpg.enable = true;
-
-          programs.atuin = {
-            enable = true;
-            enableZshIntegration = true;
-            flags = [ "--disable-up-arrow" ];
-          };
-
-          programs.password-store = {
-            enable = true;
-            package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
-            settings = {
-              PASSWORD_STORE_DIR = "${config.home.homeDirectory}/.password-store";
-            };
-          };
-
-          programs.zsh = {
-            enable = true;
-            defaultKeymap = "viins";
-            enableCompletion = true;
-            autosuggestion.enable = true;
-            syntaxHighlighting.enable = true;
-            shellAliases = {
-              wormhole = "wormhole-william";
-              mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
-              ls = "ls --color=auto -F";
-              hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;";
-              nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
-              nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
-              cp = "cp -i"; # Confirm before overwriting something
-              df = "df -h"; # Human-readable sizes
-              free = "free -m"; # Show sizes in MB
-              open = "xdg-open";
-              cat = "bat";
-              g = "git";
-              lg = "lazygit";
-              v = "nvim";
-              gcob = "git branch | fzf | xargs git checkout";
-            };
-            plugins = [ ];
-            initExtra = ''
-            '' + (builtins.readFile ./modules/home-manager/zsh-init-extra.zsh);
-            envExtra = ''
-            '';
-          };
 
           programs.mpv = {
             enable = true;
@@ -343,32 +272,6 @@
           programs.zoxide = {
             enable = true;
             enableZshIntegration = true;
-          };
-
-          programs.starship = {
-            enable = true;
-            enableZshIntegration = true;
-            settings = {
-              character = {
-                success_symbol = "[❯](bold fg:#ff33b8) ";
-                error_symbol = "[✗](bold red) ";
-              };
-            };
-          };
-
-          programs.lazygit = {
-            enable = true;
-            settings = {
-              git.overrideGpg = true;
-              quitOnTopLevelReturn = true;
-              gui.skipDiscardChangeWarning = true;
-              gui.mouseEvents = false;
-              gui.showCommandLog = false;
-              gui.showBottomLine = false;
-              gui.showPanelJumps = false;
-              keybinding.universal.toggleWhitespaceInDiffView = "";
-              keybinding.universal.togglePanel = "<c-w>";
-            };
           };
 
           programs.wezterm = {
@@ -381,6 +284,8 @@
           };
           # allow to symlink the config file
           xdg.configFile."wezterm/wezterm.lua".enable = false;
+
+
 
           # Let Home Manager install and manage itself.
           programs.home-manager.enable = true;

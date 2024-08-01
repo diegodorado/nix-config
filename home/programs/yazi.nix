@@ -23,9 +23,9 @@
     };
 
     theme = {
-      # flavor = {
-      #   use = "catppuccin-mocha";
-      # };
+      flavor = {
+        use = "catppuccin-mocha";
+      };
     };
   };
 
