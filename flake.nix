@@ -248,32 +248,37 @@
             CLICOLOR = 1;
           };
 
-          programs.nnn = {
+
+          programs.yazi = {
             enable = true;
-            package = pkgs.nnn.override {
-              withNerdIcons = true;
+            enableZshIntegration = true;
+            # shellWrapperName = "yy";
+            flavors = {
+              "catppuccin-mocha.yazi" =
+                let
+                  fetchCatppuccin = pkgs.fetchgit {
+                    url = "https://github.com/yazi-rs/flavors.git";
+                    rev = "main";
+                    sparseCheckout = [
+                      "catppuccin-mocha.yazi"
+                    ];
+                    hash = "sha256-9hw6+yDI1KMl0e33ZMnFlitS9eE/dG5qW8b+E7k5Oks=";
+                  };
+                in
+                pkgs.runCommand "move-catppuccin" { } ''
+                  # mkdir -p $out
+                  # cp -r ${fetchCatppuccin}/catppuccin-mocha.yazi/flavor.toml $out/
+                  cp -r ${fetchCatppuccin}/catppuccin-mocha.yazi $out
+                '';
             };
-            bookmarks = {
-              D = "~/Documents";
-              d = "~/Downloads";
-              c = "~/Code";
-              v = "~/Videos";
-            };
-            plugins = {
-              src =
-                (pkgs.fetchFromGitHub {
-                  owner = "jarun";
-                  repo = "nnn";
-                  rev = "v4.5";
-                  sha256 = "sha256-uToAgWpGaTPTMYJh1D0xgvE23GSIshv1OBlWxXI07Mk=";
-                })
-                + "/plugins";
-              mappings = {
-                z = "autojump"; # zoxide
-                p = "preview-tui";
+
+            theme = {
+              flavor = {
+                use = "catppuccin-mocha";
               };
             };
           };
+
 
           programs.neovim = {
             enable = true;
@@ -400,7 +405,6 @@
             initExtra = ''
             '' + (builtins.readFile ./modules/home-manager/zsh-init-extra.zsh);
             envExtra = ''
-              export NNN_FIFO=/tmp/nnn.fifo
             '';
           };
 
