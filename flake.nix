@@ -131,53 +131,9 @@
             # linux only packages
             calibre # e-book manager
             (pkgs.writeShellScriptBin "wob-wrapper" (builtins.readFile ./modules/home-manager/wob-wrapper))
-          ]) ++ [
-            (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-
-            curl
-            tldr
-            fd
-            fzf
-            less
-            ripgrep
-            jq
-            just
-            go
-            htop
-            heroku
-            gh
-
-            lsix # ls for images
-
-            # cpp build tools
-            build2
-            bdep
-
-            liblo # oscsend/dump
-
-            trash-cli
-
-            slides # markdown presentation in the terminal
-
-            sox
-            ffmpeg
-
-            wormhole-william
-            swift-format
-
-            maestro # mobile automation tool
-
-            leiningen
-            clojure
-
-            # large language models
-            ollama
-
-            # # It is sometimes useful to fine-tune packages, for example, by applying
-            # # overrides. You can do that directly here, just don't forget the
-            # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-            # # fonts?
-            # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+          ]) ++ (
+            import ./home/packages/shared.nix { pkgs = pkgs; }
+          ) ++ [
 
             # Connect to "the other" machine
             (pkgs.writeShellScriptBin "sshh" ''
