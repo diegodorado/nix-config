@@ -241,8 +241,6 @@
           # allow to symlink the config file
           xdg.configFile."wezterm/wezterm.lua".enable = false;
 
-
-
           # Let Home Manager install and manage itself.
           programs.home-manager.enable = true;
 
