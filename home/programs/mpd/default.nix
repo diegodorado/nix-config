@@ -7,6 +7,8 @@ let
     playlist_directory      "${config.home.homeDirectory}/.config/mpd/playlists"
   '';
 
+  mpcBinary = "${pkgs.mpc-cli}/bin/mpc";
+
   mpcWrapper = ''
     #!/bin/bash
 
@@ -24,31 +26,28 @@ let
       RELATIVE_PATH=$(echo "$ABSOLUTE_PATH" | sed "s|^${musicDirectory}/||")
 
       # Pass command to mpc
-      exec mpc "$1" "$RELATIVE_PATH"
+      exec ${mpcBinary} "$1" "$RELATIVE_PATH"
     else
-      exec mpc "$@"
+      exec ${mpcBinary} "$@"
     fi
   '';
 
+  # Define a custom wrapper for mpc-cli
+  mpc = pkgs.writeShellScriptBin "mpc" mpcWrapper;
 
 in
 {
-
   config = {
 
-    # add required packages and flavors/plugins configurations
     home.packages = with pkgs; [
       mpd
       mus
-      mpc-cli
-      (writeShellScriptBin "mpcw" mpcWrapper)
+      mpc
     ];
 
     xdg.configFile = {
       "mpd/mpd.conf".text = mpdConfig;
     };
-
   };
-
 }
 
