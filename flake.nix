@@ -106,6 +106,11 @@
             ./home/programs/zsh.nix
           ];
 
+          services.mpd = {
+            enable = true;
+            musicDirectory = "${config.home.homeDirectory}/Music";
+          };
+
           # HACK: if binary is missing under tofi, delete .cache/tofi*
           # xdg.enable = true;
           # xdg.mime.enable = true;
@@ -134,6 +139,7 @@
           ]) ++ (
             import ./home/packages/shared.nix { pkgs = pkgs; }
           ) ++ [
+            mpc-cli
 
             # Connect to "the other" machine
             (pkgs.writeShellScriptBin "sshh" ''
