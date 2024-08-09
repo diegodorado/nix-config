@@ -103,13 +103,9 @@
             ./home/programs/password-store.nix
             ./home/programs/starship.nix
             ./home/programs/yazi
+            ./home/programs/mpd
             ./home/programs/zsh.nix
           ];
-
-          services.mpd = {
-            enable = true;
-            musicDirectory = "${config.home.homeDirectory}/Music";
-          };
 
           # HACK: if binary is missing under tofi, delete .cache/tofi*
           # xdg.enable = true;
@@ -139,8 +135,6 @@
           ]) ++ (
             import ./home/packages/shared.nix { pkgs = pkgs; }
           ) ++ [
-            mpc-cli
-
             # Connect to "the other" machine
             (pkgs.writeShellScriptBin "sshh" ''
               IP=$( ${if pkgs.stdenv.isDarwin then
