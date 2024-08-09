@@ -102,7 +102,7 @@
             ./home/programs/neovim.nix
             ./home/programs/password-store.nix
             ./home/programs/starship.nix
-            ./home/programs/yazi.nix
+            ./home/programs/yazi
             ./home/programs/zsh.nix
           ];
 

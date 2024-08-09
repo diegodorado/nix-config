@@ -15,6 +15,10 @@ with pkgs; [
   gh
 
   lsix # ls for images
+  hexyl # hex viewer
+
+  netcat-gnu # read/write data over network
+  socat # data transfer between data channels
 
   # cpp build tools
   build2
@@ -25,6 +29,7 @@ with pkgs; [
   trash-cli
 
   slides # markdown presentation in the terminal
+  glow # render markdown in the terminal
 
   sox
   ffmpeg
