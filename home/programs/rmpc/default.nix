@@ -13,13 +13,7 @@ let
       hash = "sha256-GWivvhIhRNZz0dcB2Bjqr0coxDAIhRM7Yg5BQ5hK16g=";
     };
 
-    cargoHash = "sha256-sueUAiFPrO81g3Rwc3jf6e7B4c4aEaA+jxYA2iH4N2s=";
-
-    cargoPatches = [
-      # Patch Cargo.lock to make rmpc compile with older versions of rustc
-      # Remove when Rust 1.79.0 is in master
-      ./Cargo.lock.patch
-    ];
+    cargoHash = "sha256-oAiSSj6h/SkI6SzqH8vZrxGIxFvT9M+AVKgXkhBLIqY=";
 
     nativeBuildInputs = [
       pkgs.pkg-config
