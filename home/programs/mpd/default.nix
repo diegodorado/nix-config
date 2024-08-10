@@ -2,10 +2,29 @@
 
 let
   musicDirectory = "${config.home.homeDirectory}/Music";
+  mpdDirectory = "${config.home.homeDirectory}/.mpd";
+  mpdConfigFile =
+    if pkgs.stdenv.isDarwin then "${mpdDirectory}/mpd.conf"
+    else ".config/mpd/mpd.conf";
   mpdConfig = ''
     music_directory         "${musicDirectory}"
     playlist_directory      "${config.home.homeDirectory}/.config/mpd/playlists"
-  '';
+  '' + (
+    if pkgs.stdenv.isDarwin then ''
+      # playlist_directory  "${mpdDirectory}/playlists"
+      log_file            "${mpdDirectory}/log"
+      db_file             "${mpdDirectory}/db"
+      state_file          "${mpdDirectory}/state"
+      pid_file            "${mpdDirectory}/pid"
+      zeroconf_enabled    "no"
+      audio_output {
+        type "osx"
+        name "CoreAudio"
+      }
+    '' else ''
+    ''
+  )
+  ;
 
   mpcBinary = "${pkgs.mpc-cli}/bin/mpc";
 
@@ -14,7 +33,7 @@ let
 
     # Start mpd if not running
     if ! pgrep -x "mpd" > /dev/null; then
-      mpd &
+      mpd --no-daemon &
       sleep 2  # Wait for mpd to start up
     fi
 
@@ -45,8 +64,12 @@ in
       mpc
     ];
 
-    xdg.configFile = {
-      "mpd/mpd.conf".text = mpdConfig;
+    services.mpd = {
+      enable = true;
+    };
+
+    home.file = {
+      "${mpdConfigFile}".text = mpdConfig;
     };
   };
 }
