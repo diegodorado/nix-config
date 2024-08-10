@@ -1,21 +1,20 @@
 { config, lib, pkgs, ... }:
 
 let
+  name = "mpd";
+  dataDir = "${config.xdg.dataHome}/${name}";
   musicDirectory = "${config.home.homeDirectory}/Music";
-  mpdDirectory = "${config.home.homeDirectory}/.mpd";
-  mpdConfigFile =
-    if pkgs.stdenv.isDarwin then "${mpdDirectory}/mpd.conf"
-    else ".config/mpd/mpd.conf";
-  mpdConfig = ''
-    music_directory         "${musicDirectory}"
-    playlist_directory      "${config.home.homeDirectory}/.config/mpd/playlists"
+  playlistDir = "${dataDir}/playlists";
+
+  mpdConf = pkgs.writeText "mpd.conf" (''
+    music_directory     "${musicDirectory}"
+    playlist_directory  "${playlistDir}"
+    log_file            "${dataDir}/log"
+    db_file             "${dataDir}/db"
+    state_file          "${dataDir}/state"
+    pid_file            "${dataDir}/pid"
   '' + (
     if pkgs.stdenv.isDarwin then ''
-      # playlist_directory  "${mpdDirectory}/playlists"
-      log_file            "${mpdDirectory}/log"
-      db_file             "${mpdDirectory}/db"
-      state_file          "${mpdDirectory}/state"
-      pid_file            "${mpdDirectory}/pid"
       zeroconf_enabled    "no"
       audio_output {
         type "osx"
@@ -23,17 +22,19 @@ let
       }
     '' else ''
     ''
-  )
-  ;
+  ));
 
-  mpcBinary = "${pkgs.mpc-cli}/bin/mpc";
+  # redefine mpd
+  mpd = pkgs.writeShellScriptBin "mpd" ''
+    mkdir -p ${dataDir} ${playlistDir}
+    ${pkgs.mpd}/bin/mpd --no-daemon ${mpdConf}
+  '';
 
-  mpcWrapper = ''
-    #!/bin/bash
-
+  # redefine mpc
+  mpc = pkgs.writeShellScriptBin "mpc" ''
     # Start mpd if not running
     if ! pgrep -x "mpd" > /dev/null; then
-      mpd --no-daemon &
+      mpd &
       sleep 2  # Wait for mpd to start up
     fi
 
@@ -41,18 +42,18 @@ let
     if [ "$1" = "add" ] || [ "$1" = "insert" ]; then
       ABSOLUTE_PATH=$(realpath "$2")
 
-      # Remove music directory path if present using sed
-      RELATIVE_PATH=$(echo "$ABSOLUTE_PATH" | sed "s|^${musicDirectory}/||")
+      # Check if the ABSOLUTE_PATH starts with the musicDirectory
+      if [[ "$ABSOLUTE_PATH" == "${musicDirectory}/"* ]]; then
+        # Remove music directory path if present using sed
+        RELATIVE_PATH=$(echo "$ABSOLUTE_PATH" | sed "s|^${musicDirectory}/||")
 
-      # Pass command to mpc
-      exec ${mpcBinary} "$1" "$RELATIVE_PATH"
-    else
-      exec ${mpcBinary} "$@"
+        # Redefine positional parameters
+        set -- "$1" "$RELATIVE_PATH"
+      fi
+
     fi
+    exec ${pkgs.mpc-cli}/bin/mpc "$@"
   '';
-
-  # Define a custom wrapper for mpc-cli
-  mpc = pkgs.writeShellScriptBin "mpc" mpcWrapper;
 
 in
 {
@@ -62,15 +63,9 @@ in
       mpd
       mus
       mpc
+      rmpc
     ];
 
-    services.mpd = {
-      enable = true;
-    };
-
-    home.file = {
-      "${mpdConfigFile}".text = mpdConfig;
-    };
   };
 }
 
