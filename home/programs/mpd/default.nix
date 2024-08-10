@@ -63,7 +63,6 @@ in
       mpd
       mus
       mpc
-      rmpc
     ];
 
   };

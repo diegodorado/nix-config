@@ -104,6 +104,7 @@
             ./home/programs/starship.nix
             ./home/programs/yazi
             ./home/programs/mpd
+            ./home/programs/rmpc
             ./home/programs/zsh.nix
           ];
 
