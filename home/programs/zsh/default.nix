@@ -26,8 +26,7 @@
       gcob = "git branch | fzf | xargs git checkout";
     };
     plugins = [ ];
-    initExtra = ''
-            '' + (builtins.readFile ../../modules/home-manager/zsh-init-extra.zsh);
+    initExtra = (builtins.readFile ./extra.zsh);
     envExtra = ''
             '';
   };

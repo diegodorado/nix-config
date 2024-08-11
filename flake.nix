@@ -105,7 +105,7 @@
             ./home/programs/yazi
             ./home/programs/mpd
             ./home/programs/rmpc
-            ./home/programs/zsh.nix
+            ./home/programs/zsh
           ];
 
           # HACK: if binary is missing under tofi, delete .cache/tofi*
