@@ -24,6 +24,8 @@ with pkgs; [
   build2
   bdep
 
+  cointop
+
   liblo # oscsend/dump
 
   trash-cli
