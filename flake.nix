@@ -102,6 +102,7 @@
             ./home/programs/neovim.nix
             ./home/programs/password-store.nix
             ./home/programs/starship.nix
+            ./home/programs/misc.nix
             ./home/programs/yazi
             ./home/programs/mpd
             ./home/programs/rmpc
@@ -215,21 +216,6 @@
             CLICOLOR = 1;
           };
 
-          programs.bat.enable = true;
-          # programs.bat.config.theme = "Catppuccin";
-          programs.fzf.enable = true;
-          programs.fzf.enableZshIntegration = true;
-
-          programs.gpg.enable = true;
-
-          programs.mpv = {
-            enable = true;
-          };
-
-          programs.zoxide = {
-            enable = true;
-            enableZshIntegration = true;
-          };
 
           programs.wezterm = {
             enable = true;

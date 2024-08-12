@@ -14,6 +14,15 @@ with pkgs; [
   heroku
   gh
 
+  scc # code counter with complexity calculations
+  duf # disk usage/free utility
+  bandwhich # display current network utilization
+  dua # disk usage analyzer
+
+  browsh # modern text-based browser
+  asciinema # terminal session recorder 
+
+
   lsix # ls for images
   hexyl # hex viewer
 

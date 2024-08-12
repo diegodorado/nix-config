@@ -11,7 +11,6 @@
     shellAliases = {
       wormhole = "wormhole-william";
       mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
-      ls = "ls --color=auto -F";
       hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;";
       nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
       nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
