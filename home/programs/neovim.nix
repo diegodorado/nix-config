@@ -23,6 +23,7 @@
         python
         ruby
         rust
+        ron
         supercollider
         swift
         tsx
