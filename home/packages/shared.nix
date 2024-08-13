@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 with pkgs; [
+  nix # fucking nix itself
+
   curl
   tldr
   fd
@@ -22,6 +24,7 @@ with pkgs; [
   browsh # modern text-based browser
   asciinema # terminal session recorder 
 
+  yt-dlp # download youtube videos
 
   lsix # ls for images
   hexyl # hex viewer

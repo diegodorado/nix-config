@@ -2,9 +2,9 @@
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 (
-    address: "127.0.0.1:6600",
+    address: "/tmp/mpd_socket",
+    cache_dir: Some("/tmp/rmpc/cache"),
     theme: Some("default"),
-    cache_dir: None,
     volume_step: 5,
     status_update_interval_ms: 1000,
     select_current_song_on_change: false,

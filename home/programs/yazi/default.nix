@@ -43,18 +43,19 @@ in
           use = "catppuccin-mocha";
         };
       };
+
+      flavors = {
+        catppuccin-mocha = "${flavors}/catppuccin-mocha.yazi";
+      };
+
+      plugins = {
+        glow = glow;
+        exifaudio = exifaudio;
+      };
     };
 
     # add required packages and flavors/plugins configurations
     home.packages = with pkgs; [ exiftool glow ];
-
-    xdg.configFile = {
-      # flavors
-      "yazi/flavors/catppuccin-mocha.yazi".source = "${flavors}/catppuccin-mocha.yazi";
-      # plugins
-      "yazi/plugins/glow.yazi".source = "${glow}";
-      "yazi/plugins/exifaudio.yazi".source = "${exifaudio}";
-    };
 
   };
 

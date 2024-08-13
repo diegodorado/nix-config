@@ -7,6 +7,7 @@ let
   playlistDir = "${dataDir}/playlists";
 
   mpdConf = pkgs.writeText "mpd.conf" (''
+    bind_to_address "/tmp/mpd_socket"
     music_directory     "${musicDirectory}"
     playlist_directory  "${playlistDir}"
     log_file            "${dataDir}/log"
