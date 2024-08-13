@@ -24,39 +24,34 @@ let
 
 in
 {
+  # required packages for plugins
+  home.packages = with pkgs; [ exiftool glow ];
 
-  config = {
-
-    programs.yazi = {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        plugin = {
-          prepend_previewers = [
-            { name = "*.md"; run = "glow"; }
-            { mime = "audio/*"; run = "exifaudio"; }
-          ];
-        };
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      plugin = {
+        prepend_previewers = [
+          { name = "*.md"; run = "glow"; }
+          { mime = "audio/*"; run = "exifaudio"; }
+        ];
       };
-      theme = {
-        flavor = {
-          use = "catppuccin-mocha";
-        };
-      };
-
-      flavors = {
-        catppuccin-mocha = "${flavors}/catppuccin-mocha.yazi";
-      };
-
-      plugins = {
-        glow = glow;
-        exifaudio = exifaudio;
+    };
+    theme = {
+      flavor = {
+        use = "catppuccin-mocha";
       };
     };
 
-    # add required packages and flavors/plugins configurations
-    home.packages = with pkgs; [ exiftool glow ];
+    flavors = {
+      catppuccin-mocha = "${flavors}/catppuccin-mocha.yazi";
+    };
 
+    plugins = {
+      glow = glow;
+      exifaudio = exifaudio;
+    };
   };
 
 }
