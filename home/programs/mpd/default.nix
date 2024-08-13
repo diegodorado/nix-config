@@ -11,6 +11,7 @@ let
     playlist_directory  "${playlistDir}"
     log_file            "${dataDir}/log"
     db_file             "${dataDir}/db"
+    metadata_to_use     "artist,album,title,date"
     state_file          "${dataDir}/state"
     pid_file            "${dataDir}/pid"
   '' + (

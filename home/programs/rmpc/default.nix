@@ -17,6 +17,14 @@ let
       pkgs.darwin.apple_sdk.frameworks.IOKit
     ];
 
+    patches = [
+      # filename as title if missing tag
+      (pkgs.fetchpatch {
+        url = "https://github.com/mierak/rmpc/commit/60d138864c4957e4ae3a2e14dad082f19cd599e2.patch";
+        hash = "sha256-3tfK2jMXBxJLILk3xQtkPHl8F/wLG45sdmeEsLHjx04=";
+      })
+    ];
+
     cargoHash = "sha256-oAiSSj6h/SkI6SzqH8vZrxGIxFvT9M+AVKgXkhBLIqY=";
 
     nativeBuildInputs = [
