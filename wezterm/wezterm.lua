@@ -230,6 +230,7 @@ return {
 		leader_key("J", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
+		leader_key("o", act.SpawnCommandInNewTab({ args = { wezterm.config_dir .. "/otp" } })),
 
 		-- move between split panes
 		split_nav("move", "h"),

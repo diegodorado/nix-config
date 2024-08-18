@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+PREFIX="$HOME/.password-store"
+FILES=("$PREFIX"/**/*.gpg)
+FILES=("${FILES[@]#"$PREFIX"/}")
+FILES=("${FILES[@]%.gpg}")
+
+selected=$(
+  printf "%s\n" "${FILES[@]}" |
+    fzf \
+      --layout=reverse \
+      --info=inline \
+      --border \
+      --margin=5 \
+      --padding=1
+)
+
+if [[ -z $selected ]]; then
+  exit 0
+fi
+
+otp=$(pass otp "$selected")
+
+case "$(uname -s)" in
+Darwin)
+  echo $otp | pbcopy
+  ;;
+Linux)
+  echo $otp | wl-copy
+  ;;
+esac
