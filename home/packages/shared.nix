@@ -47,6 +47,7 @@ with pkgs; [
 
   sox
   ffmpeg
+  mkvtoolnix # cross-platform tools for matroska
 
   wormhole-william
   swift-format
