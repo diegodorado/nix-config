@@ -16,6 +16,9 @@ with pkgs; [
   heroku
   gh
 
+  zbar # bar code reader
+  qrencode # encode to a qr code symbol
+
   scc # code counter with complexity calculations
   duf # disk usage/free utility
   bandwhich # display current network utilization
