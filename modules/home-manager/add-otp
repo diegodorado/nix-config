@@ -2,27 +2,37 @@
 
 # Reads a QR code from the screen,
 # and adds/updates a pass otp entry
-# NOTE: depends on many executables
-# and only works on linux
 
-uri=$(grim - | zbarimg -q --oneshot --raw -)
+case "$(uname -s)" in
+Darwin)
+  screencapture -x /tmp/screenshot.png
+  uri=$(zbarimg -Stest-inverted -q --oneshot -/tmp/screenshot.png)
+  rm /tmp/screenshot.png
+  ;;
+Linux)
+  uri=$(grim - | zbarimg -Stest-inverted -q --oneshot --raw -)
+  ;;
+esac
+
 if [ "$?" -ne 0 ]; then
-	# no qr found
-	exit 1
+  # no qr found
+  exit 1
 fi
 
 pass otp validate "$uri" 2>/dev/null
 if [ "$?" -ne 0 ]; then
-	# uri invalid
-	exit 2
+  # uri invalid
+  exit 2
 fi
 
-# Function to URL decode
-urldecode() {
-	echo -e "$(sed 's/+/ /g; s/%\([0-9a-fA-F][0-9a-fA-F]\)/\\x\1/g')"
-}
-
-# Extract passname
-passname=$(echo "$uri" | urldecode | sed -e 's/.*totp.//' -e 's/\?.*//' | tr ' ' '_' | tr ':' '/')
+# extract passname
+passname=$(echo "$uri" |
+  sed -e 's/+/ /g' \
+    -e 's/%\([0-9a-fA-F][0-9a-fA-F]\)/\\x\1/g' \
+    -e 's/.*totp.//' \
+    -e 's/\?.*//' |
+  sed 's/\\x/\\x0/g' | xargs -0 printf '%b' |
+  tr ' ' '_' |
+  tr ':' '/')
 
 echo -n "$uri" | pass otp insert "$passname"
