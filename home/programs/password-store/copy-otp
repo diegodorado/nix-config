@@ -1,8 +1,5 @@
-#!/usr/bin/env zsh
-
-PREFIX="$HOME/.password-store"
-FILES=("$PREFIX"/**/*.gpg)
-FILES=("${FILES[@]#"$PREFIX"/}")
+FILES=("$PASSWORD_STORE_DIR"/**/*.gpg)
+FILES=("${FILES[@]#"$PASSWORD_STORE_DIR"/}")
 FILES=("${FILES[@]%.gpg}")
 
 selected=$(

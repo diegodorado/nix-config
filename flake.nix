@@ -100,11 +100,11 @@
             ./home/programs/git.nix
             ./home/programs/lazygit.nix
             ./home/programs/neovim.nix
-            ./home/programs/password-store.nix
             ./home/programs/starship.nix
             ./home/programs/misc.nix
             ./home/programs/yazi
             ./home/programs/mpd
+            ./home/programs/password-store
             ./home/programs/rmpc
             ./home/programs/zsh
           ];
@@ -147,7 +147,6 @@
               ssh $IP
             '')
 
-            (pkgs.writeShellScriptBin "add-otp" (builtins.readFile ./modules/home-manager/add-otp))
           ];
 
           # TODO: add these files to home.file
