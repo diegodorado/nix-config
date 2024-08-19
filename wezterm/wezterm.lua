@@ -230,7 +230,7 @@ return {
 		leader_key("J", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
-		leader_key("o", act.SpawnCommandInNewTab({ args = { "copy-otp" } })),
+		leader_key("o", act.SpawnCommandInNewTab({ args = { "zsh", "-l", "-c", "copy-otp" } })),
 
 		-- move between split panes
 		split_nav("move", "h"),
