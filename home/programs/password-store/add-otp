@@ -4,7 +4,7 @@
 case "$(uname -s)" in
 Darwin)
   screencapture -x /tmp/screenshot.png
-  uri=$(zbarimg -Stest-inverted -q --oneshot /tmp/screenshot.png | sed 's/.*otpauth/otpauth/')
+  uri=$(zbarimg -Stest-inverted -q --oneshot --raw /tmp/screenshot.png)
   rm /tmp/screenshot.png
   ;;
 Linux)
