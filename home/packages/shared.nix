@@ -16,6 +16,8 @@ with pkgs; [
   heroku
   gh
 
+  uv # python package manager
+  fx # json/yaml browser
 
   scc # code counter with complexity calculations
   duf # disk usage/free utility
