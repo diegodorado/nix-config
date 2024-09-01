@@ -196,10 +196,13 @@
             };
 
             # same for wezterm, for hot reload config
-            # extraConfig = builtins.readFile ./modules/home-manager/wezterm/wezterm.lua;
             "./.config/wezterm/" = {
               source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/wezterm";
+            };
 
+            # and for zed
+            "./.config/zed/" = {
+              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/zed";
             };
 
             ".ssh/allowed_signers".text =
