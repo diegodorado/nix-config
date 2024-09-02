@@ -24,7 +24,6 @@
   outputs = inputs@{ self, ... }:
     let
       username = "diegodorado";
-      homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${username}";
       stateVersion = "22.11";
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
@@ -50,7 +49,7 @@
       };
 
       mkConfigSymlink = config: path: {
-        source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/Code/nix-config/${path}";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/${path}";
       };
 
     in
@@ -66,7 +65,7 @@
             ({ pkgs, ... }: {
               imports = [ self.homeModules.default ];
               home.username = username;
-              home.homeDirectory = homeDirectory;
+              home.homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${username}";
               home.stateVersion = stateVersion;
             });
       };
