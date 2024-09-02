@@ -142,6 +142,7 @@ return {
 		family = "JetBrains Mono",
 	}),
 	font_size = 16.0,
+	front_end = "WebGpu",
 	color_schemes = {
 		-- Override the builtin scheme
 		[color_scheme] = scheme,
