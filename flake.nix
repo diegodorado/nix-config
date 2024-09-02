@@ -24,6 +24,7 @@
   outputs = inputs@{ self, ... }:
     let
       username = "diegodorado";
+      homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${username}";
       stateVersion = "22.11";
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
@@ -48,9 +49,8 @@
 
       };
 
-
-      mkConfigSymlink = path: {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/${path}";
+      mkConfigSymlink = config: path: {
+        source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/Code/nix-config/${path}";
       };
 
     in
@@ -66,7 +66,7 @@
             ({ pkgs, ... }: {
               imports = [ self.homeModules.default ];
               home.username = username;
-              home.homeDirectory = "/${if pkgs.stdenv.isDarwin then "Users" else "home"}/${username}";
+              home.homeDirectory = homeDirectory;
               home.stateVersion = stateVersion;
             });
       };
@@ -198,10 +198,10 @@
             # some configs are better managed if symlinked
             # because they allow for faster iterations
             # and hot reloads
-            "./.config/nvim/" = mkConfigSymlink "nvim";
-            "./.config/wezterm/" = mkConfigSymlink "wezterm";
-            "./.config/zed/keymap.json" = mkConfigSymlink "zed/keymap.json";
-            "./.config/zed/settings.json" = mkConfigSymlink "zed/settings.json";
+            "./.config/nvim/" = mkConfigSymlink config "nvim";
+            "./.config/wezterm/" = mkConfigSymlink config "wezterm";
+            "./.config/zed/keymap.json" = mkConfigSymlink config "zed/keymap.json";
+            "./.config/zed/settings.json" = mkConfigSymlink config "zed/settings.json";
 
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
