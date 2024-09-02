@@ -7,18 +7,43 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "tab_size": 2,
+  "preview_tabs": {
+    "enable_preview_from_file_finder": true
+  },
   "tab_bar": {
     "show": true
   },
+
+  "language_models": {
+    "ollama": {
+      "low_speed_timeout_in_seconds": 60,
+      "available_models": [
+        {
+          "provider": "ollama",
+          "name": "tito"
+        }
+      ]
+    }
+  },
+
   "assistant": {
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-20240620"
+      "provider": "ollama",
+      "model": "codellama:latest"
     },
     "version": "2"
   },
+  "auto_install_extensions": {
+    "html": true,
+    "lua": true,
+    "catppuccin": true
+  },
 
   "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "never"
+  },
   "cursor_blink": false,
   "use_system_path_prompts": false,
   "redact_private_values": true,
@@ -39,28 +64,29 @@
     "light": "One Light",
     "dark": "Catppuccin Mocha"
   },
-  // "experimental.theme_override": {
-  //   "background.appearance": "blurred",
-  //   "background": "#00000001",
-  //   "editor.background": "#00000001",
-  //   "editor.gutter.background": "#00000000",
-  //   "tab_bar.background": "#00000000",
-  //   "terminal.background": "#00000000",
-  //   "toolbar.background": "#00000000",
-  //   "tab.active_background": "#00000000",
-  //   "tab.inactive_background": "#00000000",
-  //   "status_bar.background": "#00000000",
-  //   "title_bar.background": "#00000001",
-  //   "panel.background": "#00000000",
-  //   "border.variant": "#00000000",
-  //   "scrollbar.track.border": "#00000000"
-  // "editor.active_line.background": "#00000000",
-  // "players": [
-  //   {
-  //     "selection": "#00000000"
-  //   }
-  // ]
-  // },
+  "experimental.theme_override": {
+    "background.appearance": "opaque",
+    "background": "#1e1e2e80",
+    "title_bar.background": "#1e1e2e80",
+    "editor.background": "#00000000",
+    "editor.gutter.background": "#00000000",
+    "tab_bar.background": "#00000000",
+    "terminal.background": "#00000000",
+    "toolbar.background": "#00000000",
+    "tab.active_background": "#00000000",
+    "tab.inactive_background": "#00000000",
+    "status_bar.background": "#00000000",
+    "panel.background": "#00000000",
+    "border.variant": "#00000000",
+    "scrollbar.track.border": "#00000000",
+    "editor.active_line.background": "#00000000",
+    "title_bar.inactive_background": "#00000000",
+    "panel.focused_border": "#00000000",
+    "scrollbar.thumb.background": "#00000000",
+    "scrollbar.track.background": "#00000000",
+    "scrollbar.thumb.border": "#00000000"
+  },
+
   "languages": {
     "TypeScript": {
       "formatter": {
