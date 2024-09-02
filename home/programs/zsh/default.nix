@@ -11,7 +11,7 @@
     shellAliases = {
       wormhole = "wormhole-william";
       mm = "fd 'jpg|gif' ~/Pictures | fzf | xargs wezterm imgcat";
-      hm = "pushd ~/Code/nix-config; nix run .#activate-home; popd; source ~/.zshrc;";
+      hm = "pushd ~/Code/nix-config; nix run .\#homeConfigurations.diegodorado.activationPackage; popd; source ~/.zshrc;";
       nixswitch = "darwin-rebuild switch --flake ~/Code/nix-config/.#";
       nixup = "pushd ~/Code/nix-config; nix flake update; nixswitch; popd";
       cp = "cp -i"; # Confirm before overwriting something
