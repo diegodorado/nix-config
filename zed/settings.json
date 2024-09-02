@@ -35,7 +35,7 @@
     "quick_actions": false
   },
   "theme": {
-    "mode": "system",
+    "mode": "dark",
     "light": "One Light",
     "dark": "Catppuccin Mocha"
   },

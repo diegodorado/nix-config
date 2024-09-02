@@ -48,6 +48,11 @@
 
       };
 
+
+      mkConfigSymlink = path: {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/${path}";
+      };
+
     in
 
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -190,20 +195,13 @@
             # shared files
             ".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
-            # simple approach: symlink nvim to this repository
-            "./.config/nvim/" = {
-              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/nvim";
-            };
-
-            # same for wezterm, for hot reload config
-            "./.config/wezterm/" = {
-              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/wezterm";
-            };
-
-            # and for zed
-            "./.config/zed/" = {
-              source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/zed";
-            };
+            # some configs are better managed if symlinked
+            # because they allow for faster iterations
+            # and hot reloads
+            "./.config/nvim/" = mkConfigSymlink "nvim";
+            "./.config/wezterm/" = mkConfigSymlink "wezterm";
+            "./.config/zed/keymap.json" = mkConfigSymlink "zed/keymap.json";
+            "./.config/zed/settings.json" = mkConfigSymlink "zed/settings.json";
 
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
