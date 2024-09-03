@@ -40,9 +40,9 @@
       "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
       "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
       "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "space f": "workspace::ToggleLeftDock",
+      "space f": "project_panel::ToggleFocus",
       "space t": "workspace::NewCenterTerminal",
-      "ctrl-shift-v": "editor::Paste"
+      "ctrl-shift-v": "editor::Paste",
       // lite substitute.nvim support
       // until this is fixed: https://github.com/zed-industries/zed/issues/15367
       "s w": ["workspace::SendKeystrokes", "shift-p l d w"],
@@ -57,5 +57,27 @@
   {
     "context": "Dock",
     "bindings": {}
+  },
+  {
+    // neotree compatibility
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile", // or directory
+      "d": "project_panel::Delete",
+      "m": "project_panel::Rename",
+      "o": "project_panel::OpenPermanent",
+      "enter": "project_panel::OpenPermanent",
+      "/": "project_panel::NewSearchInDirectory",
+      "escape": "project_panel::ToggleFocus",
+      "space f": "workspace::ToggleLeftDock",
+      "x": "project_panel::RevealInFileManager",
+      // navigation
+      "h": "project_panel::CollapseSelectedEntry",
+      "j": "menu::SelectNext",
+      "k": "menu::SelectPrev",
+      "l": "project_panel::ExpandSelectedEntry",
+      "shift-g": "menu::SelectLast",
+      "g g": "menu::SelectFirst"
+    }
   }
 ]
