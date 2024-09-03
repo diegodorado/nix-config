@@ -27,6 +27,8 @@
     "context": "Editor",
     "bindings": {
       // "j k": ["workspace::SendKeystrokes", "escape"]
+      "ctrl-shift-c": "editor::Copy",
+      "ctrl-shift-v": "editor::Paste"
     }
   },
 
@@ -41,6 +43,15 @@
       "space f": "workspace::ToggleLeftDock",
       "space t": "workspace::NewCenterTerminal",
       "ctrl-shift-v": "editor::Paste"
+      // lite substitute.nvim support
+      // until this is fixed: https://github.com/zed-industries/zed/issues/15367
+      "s w": ["workspace::SendKeystrokes", "shift-p l d w"],
+      "s i \"": [
+        "workspace::SendKeystrokes",
+        "shift-f \" p l d t \" shift-t \""
+      ],
+      "s i '": ["workspace::SendKeystrokes", "shift-f ' p l d t ' shift-t '"],
+      "shift-s": ["workspace::SendKeystrokes", "shift-p l shift-d"]
     }
   },
   {
