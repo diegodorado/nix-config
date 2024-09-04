@@ -30,7 +30,7 @@
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet"
+      "model": "claude-3-5-sonnet-20240620"
     },
     "version": "2"
   },
@@ -48,7 +48,7 @@
   "cursor_blink": false,
   "use_system_path_prompts": false,
   "redact_private_values": true,
-  "ui_font_size": 16,
+  "ui_font_size": 20,
   "buffer_font_size": 16,
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "ui_font_family": "JetBrainsMono Nerd Font",
