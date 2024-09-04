@@ -59,6 +59,12 @@
     "bindings": {}
   },
   {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space space": "file_finder::Toggle"
+    }
+  },
+  {
     // neotree compatibility
     "context": "ProjectPanel && not_editing",
     "bindings": {

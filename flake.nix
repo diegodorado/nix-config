@@ -201,6 +201,7 @@
             "./.config/wezterm/" = mkConfigSymlink config "wezterm";
             "./.config/zed/keymap.json" = mkConfigSymlink config "zed/keymap.json";
             "./.config/zed/settings.json" = mkConfigSymlink config "zed/settings.json";
+            "./.config/zed/snippets/" = mkConfigSymlink config "zed/snippets";
 
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
