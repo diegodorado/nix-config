@@ -5,21 +5,17 @@ setopt no_bare_glob_qual
 case "$(uname -s)" in
   Darwin)
     export ANDROID_HOME=$HOME/Library/Android/sdk
-    #load asdf
-    source "$(brew --prefix asdf)/libexec/asdf.sh"
     ;;
 
   Linux)
 
     export ANDROID_HOME=$HOME/Android/Sdk
-    #load asdf
-    . /opt/asdf-vm/asdf.sh
     ;;
 
 esac
 
 # load asdf direnv
-source "${HOME}/.config/asdf-direnv/zshrc"
+# source "${HOME}/.config/asdf-direnv/zshrc"
 
 export KEYTIMEOUT=1
 export PATH=~/bin:~/.local/bin/:~/.ghcup/bin:$PATH

@@ -101,6 +101,7 @@
         homeModules.default = { config, pkgs, ... }: {
           imports = [
             ./home/programs/atuin.nix
+            ./home/programs/direnv.nix
             ./home/programs/git.nix
             ./home/programs/lazygit.nix
             ./home/programs/neovim.nix

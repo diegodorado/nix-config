@@ -25,7 +25,12 @@
       gcob = "git branch | fzf | xargs git checkout";
     };
     plugins = [ ];
-    initExtra = (builtins.readFile ./extra.zsh);
+    initExtra = ''
+      . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"
+      autoload -Uz bashcompinit && bashcompinit
+      . "${pkgs.asdf-vm}/share/asdf-vm/completions/asdf.bash"
+      ${(builtins.readFile ./extra.zsh)}
+    '';
     envExtra = ''
             '';
   };
