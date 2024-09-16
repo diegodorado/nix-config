@@ -14,8 +14,15 @@ case "$(uname -s)" in
 
 esac
 
-# load asdf direnv
-# source "${HOME}/.config/asdf-direnv/zshrc"
+# load the asdf direnv plugin that was setup with
+# `asdf direnv setup --no-touch-rc-file --shell zsh --version system`
+# NOTE: what is confusing here is that this asdf plugin
+# is mainly used to load .tool-versions runtimes
+# when a .envrc specifies it with `use asdf`
+# BUT also provides `direnv` runtimes, which makes
+# no sense as direnv must be installed globally
+# (otherwise it poses a chicken-and-egg problem)
+source "${HOME}/.config/asdf-direnv/zshrc"
 
 export KEYTIMEOUT=1
 export PATH=~/bin:~/.local/bin/:~/.ghcup/bin:$PATH
@@ -32,6 +39,3 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # cargo
 export PATH=$PATH:~/.cargo/bin
-
-# silent direnv
-export DIRENV_LOG_FORMAT=
