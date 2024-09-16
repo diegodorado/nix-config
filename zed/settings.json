@@ -12,7 +12,8 @@
     "enable_preview_from_file_finder": true
   },
   "tab_bar": {
-    "show": true
+    "show": true,
+    "show_nav_history_buttons": false
   },
 
   "language_models": {
@@ -38,6 +39,7 @@
     "html": true,
     "lua": true,
     "catppuccin": true,
+    "ruby": true,
     "git-firefly": true
   },
 
@@ -91,17 +93,43 @@
   "languages": {
     "JavaScript": {
       "code_actions_on_format": {
+        "source.organizeImports": true,
         "source.fixAll.eslint": true
       }
     },
     "TypeScript": {
       "code_actions_on_format": {
+        "source.organizeImports": true,
         "source.fixAll.eslint": true
       }
     },
     "TSX": {
       "code_actions_on_format": {
+        "source.organizeImports": true,
         "source.fixAll.eslint": true
+      }
+    },
+    "Ruby": {
+      "language_servers": ["ruby-lsp", "!solargraph", "!rubocop"],
+      "formatter": "language_server",
+      "format_on_save": "on"
+    }
+  },
+  "lsp": {
+    // "eslint": {
+    //   "settings": {
+    //     "codeActionOnSave": {
+    //       "rules": ["import/order"]
+    //     }
+    //   }
+    // },
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "diagnostics": false,
+          "formatting": true
+        },
+        "formatter": "standard"
       }
     }
   }

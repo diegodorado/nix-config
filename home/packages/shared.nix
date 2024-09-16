@@ -61,7 +61,8 @@ with pkgs; [
   # large language models
   ollama
 
-  asdf-vm
+  asdf-vm # runtimes manager
+  # TODO: move ~/.tool-versions here and reshim?
 
   # # It is sometimes useful to fine-tune packages, for example, by applying
   # # overrides. You can do that directly here, just don't forget the
