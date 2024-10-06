@@ -16,6 +16,8 @@ with pkgs; [
   heroku
   gh
 
+  autossh # autorestart ssh sessions and tunnels
+
   uv # python package manager
   fx # json/yaml browser
 

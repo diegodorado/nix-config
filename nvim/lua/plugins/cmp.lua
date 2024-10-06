@@ -71,11 +71,11 @@ return {
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer' },
-        {
-          name = 'codeium',
-          group_index = 1,
-          priority = 100,
-        },
+        -- {
+        --   name = 'codeium',
+        --   group_index = 1,
+        --   priority = 100,
+        -- },
       },
     }
   end,
