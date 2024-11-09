@@ -115,7 +115,7 @@
             ./home/programs/neovim.nix
             ./home/programs/starship.nix
             ./home/programs/misc.nix
-            # ./home/programs/yazi
+            ./home/programs/yazi
             ./home/programs/mpd
             ./home/programs/password-store
             ./home/programs/rmpc
