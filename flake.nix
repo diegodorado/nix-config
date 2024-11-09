@@ -14,7 +14,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nixos-flake.url = "github:srid/nixos-flake";
+    nixos-unified.url = "github:srid/nixos-unified";
 
     # some GL apps needs to be wrapped...
     nixgl.url = "github:guibou/nixGL";
@@ -56,11 +56,13 @@
 
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
-      imports = [ inputs.nixos-flake.flakeModule ];
+      imports = [
+        inputs.nixos-unified.flakeModules.default
+      ];
 
       perSystem = { pkgs, ... }: {
         legacyPackages.homeConfigurations.${username} =
-          self.nixos-flake.lib.mkHomeConfiguration
+          self.nixos-unified.lib.mkHomeConfiguration
             pkgs
             ({ pkgs, ... }: {
               imports = [ self.homeModules.default ];
@@ -76,26 +78,32 @@
         formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
         # Configurations for macOS machines
-        darwinConfigurations.dd-m1 = self.nixos-flake.lib.mkMacosSystem {
-          nixpkgs.hostPlatform = "aarch64-darwin";
-          imports = [
-            # Your nix-darwin configuration goes here
-            ({ pkgs, ... }: {
-              security.pam.enableSudoTouchIdAuth = true;
-              # Used for backwards compatibility, please read the changelog before changing.
-              # $ darwin-rebuild changelog
-              system.stateVersion = 4;
-            })
-            # Setup home-manager in nix-darwin config
-            self.darwinModules.home-manager
+        darwinConfigurations."dd-m1" =
+          self.nixos-unified.lib.mkMacosSystem
+            { home-manager = true; }
             {
-              home-manager.users.${username} = {
-                imports = [ self.homeModules.default ];
-                home.stateVersion = stateVersion;
-              };
-            }
-          ];
-        };
+              nixpkgs.hostPlatform = "aarch64-darwin";
+              imports = [
+                # Your nix-darwin configuration goes here
+                ({ pkgs, ... }: {
+                  # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565487545
+                  users.users.${username}.home = "/Users/${username}";
+
+                  security.pam.enableSudoTouchIdAuth = true;
+
+                  # Used for backwards compatibility, please read the changelog before changing.
+                  # $ darwin-rebuild changelog
+                  system.stateVersion = 4;
+                })
+                # Setup home-manager in nix-darwin config
+                {
+                  home-manager.users.${username} = {
+                    imports = [ self.homeModules.default ];
+                    home.stateVersion = stateVersion;
+                  };
+                }
+              ];
+            };
 
         # home-manager configuration goes here.
         homeModules.default = { config, pkgs, ... }: {
@@ -107,7 +115,7 @@
             ./home/programs/neovim.nix
             ./home/programs/starship.nix
             ./home/programs/misc.nix
-            ./home/programs/yazi
+            # ./home/programs/yazi
             ./home/programs/mpd
             ./home/programs/password-store
             ./home/programs/rmpc

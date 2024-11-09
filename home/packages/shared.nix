@@ -15,6 +15,7 @@ with pkgs; [
   htop
   heroku
   gh
+  direnv
 
   autossh # autorestart ssh sessions and tunnels
 
@@ -40,6 +41,8 @@ with pkgs; [
   # cpp build tools
   build2
   bdep
+
+  # zig
 
   liblo # oscsend/dump
 

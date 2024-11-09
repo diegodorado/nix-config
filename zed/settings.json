@@ -8,6 +8,7 @@
 // command palette
 {
   "tab_size": 2,
+  "tabs": { "file_icons": true },
   "preview_tabs": {
     "enable_preview_from_file_finder": true
   },
@@ -22,7 +23,8 @@
       "available_models": [
         {
           "provider": "ollama",
-          "name": "tito"
+          "name": "tito",
+          "max_tokens": 100
         }
       ]
     }
@@ -31,7 +33,7 @@
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-20240620"
+      "model": "claude-3-5-sonnet-latest"
     },
     "version": "2"
   },
@@ -50,7 +52,7 @@
   "cursor_blink": false,
   "use_system_path_prompts": false,
   "redact_private_values": true,
-  "ui_font_size": 20,
+  "ui_font_size": 16,
   "buffer_font_size": 16,
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "ui_font_family": "JetBrainsMono Nerd Font",

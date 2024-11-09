@@ -18,6 +18,7 @@ local servers = {
       -- diagnostics = { disable = { 'missing-fields' } },
     },
   },
+  zls = {}, -- zig language server
 }
 
 --  This function gets run when an LSP connects to a particular buffer.

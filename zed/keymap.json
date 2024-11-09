@@ -46,6 +46,8 @@
   {
     "context": "Editor",
     "bindings": {
+      "alt-h": "pane::ActivatePrevItem",
+      "alt-l": "pane::ActivateNextItem",
       "ctrl-shift-c": "editor::Copy",
       "ctrl-shift-v": "editor::Paste",
       "ctrl-w": "pane::CloseActiveItem",

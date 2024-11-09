@@ -64,7 +64,7 @@ in
     home.packages = with pkgs; [
       mpd
       mus
-      mpc
+      # mpc
     ];
 
   };
