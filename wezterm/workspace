@@ -7,7 +7,7 @@ set_user_var() {
 selected=$(
   find ~/Code -maxdepth 4 -type d -name ".git" |
     xargs dirname |
-    xargs realpath --relative-to="$DIR" |
+    sed "s|^$DIR/||" |
     sort -r |
     fzf \
       --layout=reverse \
