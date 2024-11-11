@@ -91,6 +91,14 @@
 
                   security.pam.enableSudoTouchIdAuth = true;
 
+                  # TODO: pick from ./modules/darwin/default.nix
+                  # and check auto-wiring
+                  environment = {
+                    systemPackages = [ pkgs.coreutils ];
+                    systemPath = [ "/opt/homebrew/bin" ];
+                    pathsToLink = [ "/Applications" ];
+                  };
+
                   # Used for backwards compatibility, please read the changelog before changing.
                   # $ darwin-rebuild changelog
                   system.stateVersion = 4;
