@@ -69,6 +69,7 @@
     "light": "One Light",
     "dark": "Catppuccin Mocha"
   },
+  // "experimental.theme_overrides": {
   "experimental.theme_override": {
     "background.appearance": "opaque",
     "background": "#1e1e2e80",

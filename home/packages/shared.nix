@@ -43,6 +43,8 @@ with pkgs; [
   bdep
 
   # zig
+  # vice # Versatile Commodore Emulator
+  scrcpy # Display and control Android devices over USB or TCP/IP
 
   liblo # oscsend/dump
 
