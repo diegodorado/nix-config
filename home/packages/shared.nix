@@ -17,6 +17,8 @@ with pkgs; [
   gh
   direnv
 
+  act # run your github actions locally
+
   autossh # autorestart ssh sessions and tunnels
 
   uv # python package manager
@@ -37,6 +39,8 @@ with pkgs; [
 
   netcat-gnu # read/write data over network
   socat # data transfer between data channels
+
+  texliveMedium # pdfcrop, among other things
 
   # cpp build tools
   build2
