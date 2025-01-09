@@ -20,6 +20,7 @@
         lua
         nix
         # openscad ...not included yet..
+        odin
         python
         ruby
         rust

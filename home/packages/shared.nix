@@ -70,6 +70,7 @@ with pkgs; [
 
   asdf-vm # runtimes manager
   # TODO: move ~/.tool-versions here and reshim?
+  odin # The Data-Oriented Language for Sane Software Development.
 
   # # It is sometimes useful to fine-tune packages, for example, by applying
   # # overrides. You can do that directly here, just don't forget the

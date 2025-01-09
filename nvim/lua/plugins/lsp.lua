@@ -1,6 +1,7 @@
 local servers = {
   clangd = {},
   rnix = {},
+  ols = {}, -- odin language server
   openscad_lsp = {},
   -- gopls = {},
   -- pyright = {},
