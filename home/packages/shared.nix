@@ -20,6 +20,7 @@ with pkgs; [
   act # run your github actions locally
 
   autossh # autorestart ssh sessions and tunnels
+  shfmt # shell script formatter
 
   uv # python package manager
   fx # json/yaml browser

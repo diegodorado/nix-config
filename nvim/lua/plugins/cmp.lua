@@ -20,6 +20,18 @@ return {
       build = ':Codeium Auth',
       opts = {},
     },
+
+    {
+      'zbirenbaum/copilot.lua',
+      cmd = 'Copilot',
+      build = ':Copilot auth',
+      opts = {},
+    },
+
+    {
+      'zbirenbaum/copilot-cmp',
+      opts = {},
+    },
   },
   config = function()
     -- See `:help cmp`
@@ -27,6 +39,8 @@ return {
     local luasnip = require 'luasnip'
     require('luasnip.loaders.from_vscode').lazy_load()
     luasnip.config.setup {}
+    local copilot_cmp = require 'copilot_cmp'
+    copilot_cmp.setup()
 
     cmp.setup {
       snippet = {
@@ -71,11 +85,11 @@ return {
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer' },
-        -- {
-        --   name = 'codeium',
-        --   group_index = 1,
-        --   priority = 100,
-        -- },
+        {
+          name = 'copilot',
+          group_index = 1,
+          priority = 100,
+        },
       },
     }
   end,

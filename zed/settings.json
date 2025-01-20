@@ -38,6 +38,8 @@
     "version": "2"
   },
   "auto_install_extensions": {
+    "make": true,
+    "odin": true,
     "html": true,
     "lua": true,
     "catppuccin": true,
