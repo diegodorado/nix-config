@@ -187,7 +187,7 @@ return {
 		bottom = 0,
 	},
 	window_close_confirmation = "NeverPrompt",
-	window_decorations = "RESIZE",
+	-- window_decorations = "RESIZE",
 
 	-- timeout_milliseconds defaults to 1000 and can be omitted
 	leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 },

@@ -25,7 +25,11 @@ return {
       'zbirenbaum/copilot.lua',
       cmd = 'Copilot',
       build = ':Copilot auth',
-      opts = {},
+      opts = {
+        filetypes = {
+          ['*'] = false, -- disable copilot...
+        },
+      },
     },
 
     {
@@ -40,7 +44,7 @@ return {
     require('luasnip.loaders.from_vscode').lazy_load()
     luasnip.config.setup {}
     local copilot_cmp = require 'copilot_cmp'
-    copilot_cmp.setup()
+    copilot_cmp.setup {}
 
     cmp.setup {
       snippet = {

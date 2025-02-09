@@ -10,6 +10,7 @@
     defaultEditor = true;
     plugins = [
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p;[
+        asm
         bash
         c
         cpp
