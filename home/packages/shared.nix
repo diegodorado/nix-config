@@ -47,6 +47,8 @@ with pkgs; [
   build2
   bdep
 
+  cc65 # C compiler for processors of 6502 family
+
   ols # odin language server
 
   # zig
