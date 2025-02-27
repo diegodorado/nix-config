@@ -236,6 +236,7 @@ return {
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
 		leader_key("o", act.SpawnCommandInNewTab({ args = { "zsh", "-l", "-c", "copy-otp" } })),
+		leader_key("p", act.ActivateCommandPalette),
 
 		-- move between split panes
 		split_nav("move", "h"),
@@ -247,11 +248,6 @@ return {
 		split_nav("resize", "j"),
 		split_nav("resize", "k"),
 		split_nav("resize", "l"),
-		{
-			key = "o",
-			mods = "CTRL",
-			action = act.ActivateCommandPalette,
-		},
 		{
 			key = "r",
 			mods = "CTRL|SHIFT",
