@@ -1,0 +1,3 @@
+[submodule "nvim/tree-sitter-jai"]
+	path = nvim/tree-sitter-jai
+	url = https://github.com/constantitus/tree-sitter-jai

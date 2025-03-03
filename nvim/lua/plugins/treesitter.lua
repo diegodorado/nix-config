@@ -1,7 +1,7 @@
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
-    -- empty, as parsers are installed through nix
-    ensure_installed = {},
+    -- just 'jai', as most parsers are installed through nix
+    ensure_installed = { 'jai' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -61,6 +61,22 @@ vim.defer_fn(function()
       },
     },
   }
+
+  local jai_repo = vim.fn.stdpath 'config' .. '/tree-sitter-jai'
+  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+  ---@diagnostic disable-next-line: inject-field
+  parser_config.jai = {
+    install_info = {
+      url = jai_repo,
+      files = { 'src/parser.c', 'src/scanner.c' },
+    },
+    filetype = 'jai',
+    filetype_to_parsername = 'jai',
+    indent = {
+      enable = true,
+    },
+  }
+  vim.filetype.add { extension = { jai = 'jai' } }
 end, 0)
 
 return {
