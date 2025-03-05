@@ -1,3 +1,6 @@
 [submodule "nvim/tree-sitter-jai"]
 	path = nvim/tree-sitter-jai
 	url = https://github.com/constantitus/tree-sitter-jai
+[submodule "nvim/jails"]
+	path = nvim/jails
+	url = https://github.com/SogoCZE/Jails

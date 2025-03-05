@@ -65,6 +65,17 @@ return {
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
     { 'j-hui/fidget.nvim', opts = {} },
 
+    {
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v2.x',
+      config = false,
+      init = function()
+        -- Disable automatic setup, we are doing it manually
+        vim.g.lsp_zero_extend_cmp = 0
+        vim.g.lsp_zero_extend_lspconfig = 0
+      end,
+    },
+
     -- Additional lua configuration, makes nvim stuff amazing!
     'folke/neodev.nvim',
   },
@@ -83,6 +94,23 @@ return {
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+    local lsp = require 'lsp-zero'
+    local lspconfig = require 'lspconfig'
+    lsp.extend_lspconfig()
+    local jails_bin = vim.fn.stdpath 'config' .. '/jails/bin/jails'
+    local configs = require 'lspconfig.configs'
+    configs.jails = {
+      default_config = {
+        cmd = { jails_bin },
+        root_dir = lspconfig.util.root_pattern('jails.json', 'build.jai', 'main.jai'),
+        filetypes = { 'jai' },
+        name = 'Jails',
+        on_attach = on_attach,
+        capabilities = capabilities,
+      },
+    }
+    lspconfig.jails.setup {}
 
     -- dart special case: lsp is not installed by mason. it is dart itself
     require('lspconfig').dartls.setup {

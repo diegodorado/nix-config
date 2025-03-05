@@ -23,6 +23,7 @@
       lg = "lazygit";
       v = "nvim";
       gcob = "git branch | fzf | xargs git checkout";
+      jai = "jai-macos";
     };
     plugins = [ ];
     initExtra = ''
