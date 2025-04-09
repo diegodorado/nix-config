@@ -7,10 +7,9 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  eslint = {
-    filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx', 'svelte' },
-  },
-  tsserver = {},
+  biome = {},
+  eslint = {},
+  ts_ls = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
   lua_ls = {
     Lua = {
