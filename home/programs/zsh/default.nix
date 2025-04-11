@@ -27,9 +27,6 @@
     };
     plugins = [ ];
     initExtra = ''
-      . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"
-      autoload -Uz bashcompinit && bashcompinit
-      . "${pkgs.asdf-vm}/share/asdf-vm/completions/asdf.bash"
       ${(builtins.readFile ./extra.zsh)}
     '';
     envExtra = ''
