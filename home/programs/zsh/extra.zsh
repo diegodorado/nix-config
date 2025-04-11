@@ -31,6 +31,3 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:~/.cargo/bin
 #jai
 export PATH=$PATH:~/Code/jai/bin
-
-# mise zsh hook
-eval "$(mise activate zsh)"

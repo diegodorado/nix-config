@@ -17,6 +17,12 @@
     enableZshIntegration = true;
   };
 
+  # runtimes and env manager without shims (better asdf)
+  programs.mise = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   # better ls
   programs.eza = {
     enable = true;
