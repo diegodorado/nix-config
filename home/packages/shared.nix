@@ -77,8 +77,7 @@ with pkgs; [
   # large language models
   ollama
 
-  asdf-vm # runtimes manager
-  # TODO: move ~/.tool-versions here and reshim?
+  mise # runtimes and env manager without shims (better asdf)
   odin # The Data-Oriented Language for Sane Software Development.
 
   # # It is sometimes useful to fine-tune packages, for example, by applying
