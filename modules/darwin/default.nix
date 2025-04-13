@@ -39,7 +39,6 @@
     global.brewfile = true;
     masApps = { };
     casks = [ "raycast" "amethyst" ];
-    # taps = ["fujiapple852/trippy"];
     brews = [ "trippy" ];
   };
 }
