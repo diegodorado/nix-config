@@ -89,7 +89,7 @@
                   # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565487545
                   users.users.${username}.home = "/Users/${username}";
 
-                  security.pam.enableSudoTouchIdAuth = true;
+                  security.pam.services.sudo_local.touchIdAuth = true;
 
                   # TODO: pick from ./modules/darwin/default.nix
                   # and check auto-wiring

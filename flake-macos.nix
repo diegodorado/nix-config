@@ -33,8 +33,6 @@
                     # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565487545
                     users.users.${myUserName}.home = "/Users/${myUserName}";
 
-                    security.pam.enableSudoTouchIdAuth = true;
-
                     # Used for backwards compatibility, please read the changelog before changing.
                     # $ darwin-rebuild changelog
                     system.stateVersion = 4;
