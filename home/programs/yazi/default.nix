@@ -5,21 +5,21 @@ let
     owner = "yazi-rs";
     repo = "flavors";
     rev = "main";
-    sha256 = "sha256-Tpu/BLs/P/5KipggGQM8je1BpLpEDVBSAb5qZPXea1k=";
+    sha256 = "sha256-+awiEG5ep0/6GaW8YXJ7FP0/xrL4lSrJZgr7qjh8iBc=";
   };
 
   glow = pkgs.fetchFromGitHub {
     owner = "Reledia";
     repo = "glow.yazi";
     rev = "main";
-    sha256 = "sha256-fKJ5ld5xc6HsM/h5j73GABB5i3nmcwWCs+QSdDPA9cU=";
+    sha256 = "sha256-mzW/ut/LTEriZiWF8YMRXG9hZ70OOC0irl5xObTNO40=";
   };
 
   exifaudio = pkgs.fetchFromGitHub {
     owner = "Sonico98";
     repo = "exifaudio.yazi";
     rev = "master";
-    sha256 = "sha256-8f1iG9RTLrso4S9mHYcm3dLKWXd/WyRzZn6KNckmiCc=";
+    sha256 = "sha256-RWCqWBpbmU3sh/A+LBJPXL/AY292blKb/zZXGvIA5/o=";
   };
 
 in
