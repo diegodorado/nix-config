@@ -43,7 +43,7 @@ wezterm.on("toggle-opacity", function(window, pane)
 end)
 
 wezterm.on("window-config-reloaded", function(window, pane)
-	-- window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
+	window:toast_notification("wezterm", "configuration reloaded ", nil, 500)
 end)
 
 wezterm.on("gui-startup", function(cmd)
@@ -190,7 +190,7 @@ return {
 	-- window_decorations = "RESIZE",
 
 	-- timeout_milliseconds defaults to 1000 and can be omitted
-	leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 },
+	leader = { key = "k", mods = "CTRL", timeout_milliseconds = 1000 },
 
 	launch_menu = {
 		{
@@ -220,7 +220,9 @@ return {
 	keys = {
 		leader_key("c", act.SpawnTab("CurrentPaneDomain")),
 		leader_key("-", act.SplitVertical({ domain = "CurrentPaneDomain" })),
+		leader_key("v", act.SplitVertical({ domain = "CurrentPaneDomain" })),
 		leader_key("\\", act.SplitHorizontal({ domain = "CurrentPaneDomain" })),
+		leader_key("f", act.SplitHorizontal({ domain = "CurrentPaneDomain" })),
 		leader_key("n", act.ActivateTabRelative(1)),
 		leader_key("z", act.TogglePaneZoomState),
 		leader_key(
@@ -232,7 +234,6 @@ return {
 				},
 			})
 		),
-		leader_key("J", act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" })),
 		leader_key("l", act.SwitchWorkspaceRelative(1)),
 		leader_key("h", act.SwitchWorkspaceRelative(-1)),
 		leader_key("o", act.SpawnCommandInNewTab({ args = { "zsh", "-l", "-c", "copy-otp" } })),
