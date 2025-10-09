@@ -27,30 +27,6 @@
       stateVersion = "22.11";
       pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
       nixgl = import inputs.nixgl { pkgs = pkgs; };
-      nixGLWrap = pkg: pkgs.stdenv.mkDerivation {
-
-        name = "${pkg.name}-nixgl-wrapper";
-        version = pkg.version;
-        src = pkgs.lib.cleanSource pkg;
-        buildInputs = [ pkg ];
-
-        installPhase = ''
-          mkdir $out
-          ln -s ${pkg}/* $out
-          rm $out/bin
-          mkdir $out/bin
-          for bin in ${pkg}/bin/*; do
-            wrapped_bin=$out/bin/$(basename $bin)
-            echo "exec ${pkgs.lib.getExe nixgl.nixGLIntel} $bin \$@" >> $wrapped_bin
-            chmod +x $wrapped_bin
-          done
-        '';
-
-      };
-
-      mkConfigSymlink = config: path: {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nix-config/${path}";
-      };
 
     in
 
@@ -117,7 +93,6 @@
         homeModules.default = { config, pkgs, ... }: {
           imports = [
             ./home/programs/atuin.nix
-            ./home/programs/direnv.nix
             ./home/programs/git.nix
             ./home/programs/lazygit.nix
             ./home/programs/neovim.nix
@@ -211,13 +186,6 @@
             # shared files
             ".inputrc".source = ./modules/home-manager/dotfiles/inputrc;
 
-            # some configs are better managed if symlinked
-            # because they allow for faster iterations
-            # and hot reloads
-            "./.config/nvim/" = mkConfigSymlink config "nvim";
-            "./.config/wezterm/" = mkConfigSymlink config "wezterm";
-            "./.config/zed/" = mkConfigSymlink config "zed";
-
             ".ssh/allowed_signers".text =
               if pkgs.stdenv.isDarwin then ''
                 * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBOIPunUINNvAF+xTstCiWgH82iUBrkfzc8USXJaibu diegodorado@gmail.com
@@ -231,17 +199,6 @@
             CLICOLOR = 1;
           };
 
-
-          programs.wezterm = {
-            enable = true;
-            enableZshIntegration = true;
-            package =
-              if pkgs.stdenv.isDarwin then
-                pkgs.wezterm
-              else (nixGLWrap pkgs.wezterm);
-          };
-          # allow to symlink the config file
-          xdg.configFile."wezterm/wezterm.lua".enable = false;
 
           # Let Home Manager install and manage itself.
           programs.home-manager.enable = true;
